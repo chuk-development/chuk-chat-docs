@@ -220,11 +220,16 @@ Projektstruktur
 <meta property="og:url" content="http://localhost:1313/docs/examples/"><meta property="article:section" content="docs">
 
 
+<meta
+  property="article:modified_time"
+  content="2026-01-25T00:50:01+01:00">
+
 
 
   <meta itemprop="name" content="Beispiele">
   <meta itemprop="description" content="Codebeispiele Hier findest du praktische Beispiele für häufige Anwendungsfälle.
 Benutzer abrufen PythonJavaScriptGo import requests API_KEY = &#34;your_api_key&#34; BASE_URL = &#34;https://api.example.com/v1&#34; def get_users(): headers = {&#34;Authorization&#34;: f&#34;Bearer {API_KEY}&#34;} response = requests.get(f&#34;{BASE_URL}/users&#34;, headers=headers) return response.json() users = get_users() for user in users[&#34;data&#34;]: print(f&#34;{user[&#39;name&#39;]} - {user[&#39;email&#39;]}&#34;) const API_KEY = &#39;your_api_key&#39;; const BASE_URL = &#39;https://api.example.com/v1&#39;; async function getUsers() { const response = await fetch(`${BASE_URL}/users`, { headers: { &#39;Authorization&#39;: `Bearer ${API_KEY}` } }); return response.json(); } const users = await getUsers(); users.data.forEach(user =&gt; { console.log(`${user.name} - ${user.email}`); }); package main import ( &#34;encoding/json&#34; &#34;fmt&#34; &#34;net/http&#34; ) const ( apiKey = &#34;your_api_key&#34; baseURL = &#34;https://api.example.com/v1&#34; ) func getUsers() ([]User, error) { req, _ := http.NewRequest(&#34;GET&#34;, baseURL&#43;&#34;/users&#34;, nil) req.Header.Set(&#34;Authorization&#34;, &#34;Bearer &#34;&#43;apiKey) client := &amp;http.Client{} resp, err := client.Do(req) if err != nil { return nil, err } defer resp.Body.Close() var result UsersResponse json.NewDecoder(resp.Body).Decode(&amp;result) return result.Data, nil } Fehlerbehandlung Behandle Fehler immer angemessen in deinem Code! try: users = get_users() except requests.exceptions.HTTPError as e: if e.response.status_code == 401: print(&#34;Ungültiger API-Schlüssel&#34;) elif e.response.status_code == 429: print(&#34;Rate-Limit erreicht, bitte warten&#34;) else: print(f&#34;Fehler: {e}&#34;) Projektstruktur src api client.py users.py utils helpers.py main.py requirements.txt README.md">
+  <meta itemprop="dateModified" content="2026-01-25T00:50:01+01:00">
   <meta itemprop="wordCount" content="183">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Beispiele">
@@ -352,7 +357,7 @@ Benutzer abrufen PythonJavaScriptGo import requests API_KEY = &#34;your_api_key&
       hx:text-gray-500 hx:hover:bg-gray-100 hx:hover:text-gray-900 hx:contrast-more:border hx:contrast-more:border-transparent hx:contrast-more:text-gray-900 hx:contrast-more:hover:border-gray-900 hx:dark:text-neutral-400 hx:dark:hover:bg-primary-100/5 hx:dark:hover:text-gray-50 hx:contrast-more:dark:text-gray-50 hx:contrast-more:dark:hover:border-gray-50"
     href="/docs/"
     
-  >Dokumentation
+  >Übersicht
         <span class="hextra-sidebar-collapsible-button"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="hx:h-[18px] hx:min-w-[18px] hx:rounded-xs hx:p-0.5 hx:hover:bg-gray-800/5 hx:dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="hx:origin-center hx:transition-transform hx:rtl:-rotate-180"></path></svg></span>
     </a><div class="hx:ltr:pr-0 hx:overflow-hidden">
         <ul class='hx:relative hx:flex hx:flex-col hx:gap-1 hx:before:absolute hx:before:inset-y-1 hx:before:w-px hx:before:bg-gray-200 hx:before:content-[""] hx:ltr:ml-3 hx:ltr:pl-3 hx:ltr:before:left-0 hx:rtl:mr-3 hx:rtl:pr-3 hx:rtl:before:right-0 hx:dark:before:bg-neutral-800'><li class="hx:flex hx:flex-col "><a
@@ -509,7 +514,7 @@ Benutzer abrufen PythonJavaScriptGo import requests API_KEY = &#34;your_api_key&
       <main class="hx:w-full hx:min-w-0 hx:max-w-6xl hx:px-6 hx:pt-4 hx:md:px-12">
         <div class="hx:mt-1.5 hx:flex hx:items-center hx:gap-1 hx:overflow-hidden hx:text-sm hx:text-gray-500 hx:dark:text-gray-400 hx:contrast-more:text-current">
         <div class="hx:whitespace-nowrap hx:transition-colors hx:min-w-[24px] hx:overflow-hidden hx:text-ellipsis hx:hover:text-gray-900 hx:dark:hover:text-gray-100">
-          <a href="/docs/">Dokumentation</a>
+          <a href="/docs/">Übersicht</a>
         </div><svg class="hx:w-3.5 hx:shrink-0 hx:rtl:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg><div class="hx:whitespace-nowrap hx:transition-colors hx:font-medium hx:text-gray-700 hx:contrast-more:font-bold hx:contrast-more:text-current hx:dark:text-gray-100 hx:contrast-more:dark:text-current">Beispiele</div>
   </div>
 

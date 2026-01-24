@@ -4,11 +4,21 @@
   <url>
     <loc>http://localhost:1313/docs/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/getting-started/</loc>
+    <loc>http://localhost:1313/docs/architektur/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/api-reference/</loc>
+    <loc>http://localhost:1313/docs/services/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/examples/</loc>
+    <loc>http://localhost:1313/docs/api/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/datenbank/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/sicherheit/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/entwicklung/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/dateistruktur/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/dependencies/</loc>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url><url>

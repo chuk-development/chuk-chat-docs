@@ -1,9 +1,5 @@
-# Hugo Konfiguration
 baseURL: "http://localhost:1313/"
-title: "Projekt Dokumentation"
-
-enableRobotsTXT: true
-enableGitInfo: true
+title: "chuk_chat"
 
 defaultContentLanguage: de
 
@@ -11,7 +7,6 @@ languages:
   de:
     languageName: Deutsch
     weight: 1
-    title: Projekt Dokumentation
 
 module:
   hugoVersion:
@@ -21,54 +16,26 @@ module:
     - path: github.com/imfing/hextra
 
 markup:
-  highlight:
-    noClasses: false
   goldmark:
     renderer:
       unsafe: true
 
 menu:
   main:
-    - identifier: documentation
-      name: Dokumentation
+    - name: Docs
       pageRef: /docs
       weight: 1
-    - name: Search
-      weight: 2
-      params:
-        type: search
-    - name: GitHub
-      weight: 3
-      url: "https://github.com"
-      params:
-        icon: github
 
 params:
-  description: Projekt Dokumentation
-
   navbar:
     displayTitle: true
     displayLogo: false
-    width: wide
 
   theme:
-    # Dark Mode als Standard
     default: dark
     displayToggle: true
 
   footer:
     enable: true
-    displayCopyright: true
-    displayPoweredBy: true
-
-  search:
-    enable: true
-    type: flexsearch
-    flexsearch:
-      index: content
-      tokenize: forward
-
-  highlight:
-    copy:
-      enable: true
-      display: hover
+    displayCopyright: false
+    displayPoweredBy: false
