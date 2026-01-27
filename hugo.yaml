@@ -1,12 +1,31 @@
 baseURL: "http://localhost:1313/"
-title: "chuk_chat"
+title: "Chuk Chat"
 
-defaultContentLanguage: de
+defaultContentLanguage: en
 
 languages:
-  de:
-    languageName: Deutsch
+  en:
+    languageName: English
     weight: 1
+
+# Output formats including llms.txt and markdown
+outputFormats:
+  llms:
+    mediaType: "text/plain"
+    baseName: "llms"
+    isPlainText: true
+    notAlternative: true
+  markdown:
+    name: "markdown"
+    baseName: "index"
+    mediaType: "text/markdown"
+    isPlainText: true
+    ugly: true
+
+outputs:
+  home: [html, llms]
+  page: [html, markdown]
+  section: [html, rss, markdown]
 
 module:
   hugoVersion:
@@ -14,19 +33,34 @@ module:
     min: "0.146.0"
   imports:
     - path: github.com/imfing/hextra
+  replacements:
+    - github.com/imfing/hextra -> /hextra
 
 markup:
   goldmark:
     renderer:
       unsafe: true
+  highlight:
+    noClasses: false
 
 menu:
   main:
-    - name: Docs
-      pageRef: /docs
+    - name: llms.txt
+      url: /llms.txt
       weight: 1
+    - name: Search
+      weight: 2
+      params:
+        type: search
+    - name: GitHub
+      url: "https://github.com/your-username/chuk-chat"
+      weight: 3
+      params:
+        icon: github
 
 params:
+  description: "Technical documentation for the Chuk Chat project - a privacy-first chat application with end-to-end encryption for open-weight AI models."
+
   navbar:
     displayTitle: true
     displayLogo: false
@@ -39,3 +73,12 @@ params:
     enable: true
     displayCopyright: false
     displayPoweredBy: false
+
+  # Sidebar configuration - expanded by default
+  sidebar:
+    defaultOpen: true
+
+  # Enable context menu (Copy Markdown, View Markdown Source)
+  page:
+    contextMenu:
+      enable: true

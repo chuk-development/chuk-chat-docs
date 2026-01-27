@@ -1,0 +1,107 @@
+# {{ .Site.Title }}
+
+> {{ .Site.Params.description | default "Technical documentation for the chuk_chat project - a privacy-first chat application with end-to-end encryption for open-weight AI models." }}
+
+This is the llms.txt file for AI/LLM crawlers. It provides a structured overview of all 99 documentation pages.
+
+## Documentation Structure
+
+{{ range .Site.Sections }}
+{{ if eq .Section "docs" }}
+### Main Sections
+{{ range .Sections }}
+- **[{{ .Title }}]({{ .Permalink }})** - {{ .Description | default (.Summary | plainify | truncate 100) }}
+{{ range .Sections }}
+  - [{{ .Title }}]({{ .Permalink }})
+{{ range .Pages }}
+    - [{{ .Title }}]({{ .Permalink }})
+{{ end }}
+{{ end }}
+{{ range .Pages }}
+  - [{{ .Title }}]({{ .Permalink }})
+{{ end }}
+{{ end }}
+{{ end }}
+{{ end }}
+
+## All Documentation Pages
+
+{{ range .Site.RegularPages }}
+{{ if hasPrefix .RelPermalink "/docs/" }}
+- [{{ .Title }}]({{ .Permalink }}) - {{ .Summary | plainify | truncate 120 }}
+{{ end }}
+{{ end }}
+
+## Project Overview
+
+chuk_chat is a cross-platform Flutter application that enables secure AI chat with:
+- End-to-end encryption (AES-256-GCM)
+- Support for multiple AI models via OpenRouter
+- Real-time streaming via WebSocket and HTTP SSE
+- Offline support with encrypted local cache
+- Project workspaces with custom system prompts
+- Image generation capabilities
+
+## Technology Stack
+
+- Framework: Flutter (Dart 3.9.2+)
+- Backend: Supabase (Auth, Database, Storage)
+- Encryption: AES-256-GCM with PBKDF2 key derivation
+- HTTP Client: Dio with certificate pinning
+- AI API: OpenRouter
+
+## Key Topics
+
+### Architecture
+- Directory structure and organization
+- Layered architecture pattern
+- Platform abstraction with conditional imports
+- Handler composition pattern for mobile
+- State management approaches
+- Design patterns used
+
+### Services (43 total)
+- Authentication: Supabase, Auth, Encryption, Password services
+- Chat: Storage, Sync, Cache, Mutations
+- Streaming: HTTP SSE, WebSocket, Manager, Foreground
+- Projects: Storage, Message composition
+- Media: Image storage, generation, compression, file conversion
+- Preferences: Theme, User, Customization
+- Config: API, Status, Network, Model services
+
+### API Endpoints
+- POST /v1/ai/chat - Chat streaming (SSE)
+- WS /v1/ai/chat/ws - WebSocket streaming
+- POST /v1/ai/convert-file - File conversion
+- POST /v1/ai/generate-image - Image generation
+- POST /protected/transcribe-audio - Audio transcription
+
+### Database (8 tables)
+- profiles - User profiles and credits
+- encrypted_chats - E2E encrypted conversations
+- theme_settings - Visual preferences
+- customization_preferences - Feature settings
+- user_preferences - Model and prompt settings
+- projects - Project workspaces
+- project_chats - Chat-project associations
+- project_files - Project file attachments
+
+### Security Features
+- AES-256-GCM encryption with PBKDF2 (600k iterations)
+- Certificate pinning in production builds
+- Input validation and sanitization
+- Rate limiting (API and uploads)
+- Row Level Security on all tables
+- Session management with password revision detection
+
+## Source Code
+
+The source code is available at: /home/user/git/chuk_chat
+
+## Full Documentation
+
+For the complete documentation with all details, visit the web version at {{ .Site.BaseURL }}
+
+---
+Generated on {{ now.Format "2006-01-02 15:04:05 MST" }}
+Site: {{ .Site.BaseURL }}

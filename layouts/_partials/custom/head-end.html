@@ -1,0 +1,5 @@
+{{/* Custom head-end partial - include custom JavaScript */}}
+{{ with resources.Get "js/custom-copy.js" }}
+  {{ $js := . | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" defer></script>
+{{ end }}

@@ -1,39 +1,37 @@
 ---
-title: Übersicht
+title: Overview
 weight: 1
 ---
 
-# chuk_chat
+A secure, cross-platform chat application built with Flutter that puts privacy first. Chat with open-weight AI models while all conversations remain encrypted and under your control.
 
-Eine sichere, plattformübergreifende Chat-Anwendung mit Flutter, die Datenschutz an erste Stelle setzt. Chatte mit Open-Weight AI-Modellen während alle Konversationen verschlüsselt und unter deiner Kontrolle bleiben.
+## Key Features
 
-## Hauptfeatures
-
-- **Ende-zu-Ende-Verschlüsselung** - AES-256-GCM mit PBKDF2 Key-Derivation
+- **End-to-End Encryption** - AES-256-GCM with PBKDF2 key derivation
 - **Cross-Platform** - Windows, macOS, Linux, Android, iOS
-- **AI Chat** - Open-Weight Models via OpenRouter (DeepSeek, Llama, Mistral, Qwen, etc.)
-- **Echtzeit-Streaming** - HTTP SSE und WebSocket
-- **Offline-Support** - Verschlüsselter lokaler Cache
-- **Projekte** - Workspaces mit System-Prompts und Datei-Kontext
-- **Bildgenerierung** - AI-Bildgenerierung via Z-Image Turbo
+- **AI Chat** - Open-weight models via OpenRouter (DeepSeek, Llama, Mistral, Qwen, etc.)
+- **Real-Time Streaming** - HTTP SSE and WebSocket
+- **Offline Support** - Encrypted local cache
+- **Projects** - Workspaces with system prompts and file context
+- **Image Generation** - AI image generation via Z-Image Turbo
 
-## Technologie-Stack
+## Technology Stack
 
-| Komponente | Technologie |
-|------------|-------------|
+| Component | Technology |
+|-----------|------------|
 | Framework | Flutter (Dart 3.9.2+) |
 | Backend | Supabase (Auth, DB, Storage) |
-| Verschlüsselung | AES-256-GCM |
-| HTTP Client | Dio mit Certificate Pinning |
+| Encryption | AES-256-GCM |
+| HTTP Client | Dio with Certificate Pinning |
 | AI API | OpenRouter |
 
-## Schnellnavigation
+## Quick Navigation
 
 {{< cards >}}
-  {{< card link="architektur" title="Architektur" icon="template" >}}
+  {{< card link="architecture" title="Architecture" icon="template" >}}
   {{< card link="services" title="Services" icon="cog" >}}
-  {{< card link="api" title="API Referenz" icon="code" >}}
-  {{< card link="datenbank" title="Datenbank" icon="database" >}}
-  {{< card link="sicherheit" title="Sicherheit" icon="shield-check" >}}
-  {{< card link="entwicklung" title="Entwicklung" icon="terminal" >}}
+  {{< card link="api" title="API Reference" icon="code" >}}
+  {{< card link="database" title="Database" icon="database" >}}
+  {{< card link="security" title="Security" icon="shield-check" >}}
+  {{< card link="development" title="Development" icon="terminal" >}}
 {{< /cards >}}
