@@ -249,4 +249,4 @@ final chats = await supabase
 
 - [Sync Strategy](../sync-strategy) - How chats are synchronized across devices
 - [Project Relations](project-relations) - Linking chats to projects
-- [Security Documentation](/docs/security) - Encryption implementation details
+- [Security Documentation](/security) - Encryption implementation details

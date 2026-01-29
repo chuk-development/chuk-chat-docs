@@ -297,6 +297,6 @@ static String _getPlatform() {
 ## Related
 
 - [Auth Services](../) - Authentication overview
-- [Session Management](/docs/security/session-management) - Session security details
-- [User Sessions Table](/docs/database/tables/user-sessions) - Database schema
-- [Token Handling](/docs/security/token-handling) - Token security
+- [Session Management](/security/session-management) - Session security details
+- [User Sessions Table](/database/tables/user-sessions) - Database schema
+- [Token Handling](/security/token-handling) - Token security

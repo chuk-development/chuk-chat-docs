@@ -37,5 +37,5 @@ StreamingChatService.sendStreamingChat()
 
 ## Related
 
-- [ChatStreamEvent Model](/docs/models/) -- Event types emitted during streaming
-- [Chat Services](/docs/services/chat/) -- Higher-level chat orchestration that uses streaming
+- [ChatStreamEvent Model](/models/) -- Event types emitted during streaming
+- [Chat Services](/services/chat/) -- Higher-level chat orchestration that uses streaming

@@ -32,11 +32,19 @@ The database follows a user-centric design where all data is associated with aut
 
 | Table | Purpose | RLS |
 |-------|---------|-----|
-| `user_credits` | Credit balance tracking | User-only |
-| `credit_transactions` | Transaction history | User-only |
+| `profiles` | User profiles and credit balances | User-only |
+| `encrypted_chats` | Encrypted chat conversations | User-only |
 | `user_preferences` | App settings | User-only |
+| `theme_settings` | Visual theme customization | User-only |
+| `customization_preferences` | Feature display preferences | User-only |
 | `projects` | Chat workspaces | User-only |
+| `project_chats` | Chat-to-project associations | User-only |
 | `project_files` | Project attachments | User-only |
+| `user_sessions` | Device session tracking and remote sign-out | User-only |
+
+{{< callout type="info" >}}
+The following tables were dropped in January 2026 as they were pre-planned but never used: `credit_transactions`, `customers`, `customer_preferences`, `orders`, `team_settings`, `user_credits`, `user_subscriptions`, `project_status`.
+{{< /callout >}}
 
 ## Security Model
 

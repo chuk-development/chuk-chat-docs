@@ -45,6 +45,6 @@ User sends message in project context
 
 ## Related
 
-- [Project Model](/docs/models/) -- `Project` and `ProjectFile` data classes
-- [Encryption Service](/docs/security/) -- AES-256-GCM encryption used for project files
-- [Chat Storage](/docs/services/chat/) -- Chat data referenced by project assignments
+- [Project Model](/models/) -- `Project` and `ProjectFile` data classes
+- [Encryption Service](/security/) -- AES-256-GCM encryption used for project files
+- [Chat Storage](/services/chat/) -- Chat data referenced by project assignments

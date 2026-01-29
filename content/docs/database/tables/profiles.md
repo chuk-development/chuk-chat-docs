@@ -145,11 +145,7 @@ print('Available credits: ${credits['credits']}');
 await supabase.rpc('increment_free_messages');
 ```
 
-{{< callout type="info" >}}
-Credit operations should use the database functions `get_user_credits()` and `deduct_credits()` to ensure atomicity and prevent race conditions.
-{{< /callout >}}
-
 ## Related
 
-- [Database Functions](../functions) - Credit management functions
+- [Database Functions](../functions) - Server-side procedures
 - [Row Level Security](../row-level-security) - Security policy patterns

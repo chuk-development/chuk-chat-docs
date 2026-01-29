@@ -175,7 +175,7 @@ ZDR filtering is **always enabled** and cannot be disabled. This is a core priva
 
 ## Related Documentation
 
-- [Threat Model](/docs/security/threat-model) - Security threat analysis
-- [Encryption](/docs/security/encryption) - End-to-end encryption details
-- [Chat Endpoints](/docs/api/chat-endpoints) - API usage for chat
-- [Configuration](/docs/api/configuration) - Server configuration options
+- [Threat Model](/security/threat-model) - Security threat analysis
+- [Encryption](/security/encryption) - End-to-end encryption details
+- [Chat Endpoints](/api/chat-endpoints) - API usage for chat
+- [Configuration](/api/configuration) - Server configuration options

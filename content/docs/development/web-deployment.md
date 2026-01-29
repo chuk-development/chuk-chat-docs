@@ -32,7 +32,11 @@ The Dockerfile passes feature flags via `--dart-define`:
 | `FEATURE_PROJECTS` | `false` | Not yet optimized for web |
 | `FEATURE_IMAGE_GEN` | `false` | Disabled for web |
 | `FEATURE_VOICE_MODE` | `false` | MediaRecorder works but UI not ready |
-| `FEATURE_MEDIA_MANAGER` | `true` | Enabled |
+| `FEATURE_SESSION_MANAGEMENT` | `false` | Behind feature flag (see [Session Tracking](/services/auth/session-tracking/)) |
+
+{{< callout type="info" >}}
+`FEATURE_MEDIA_MANAGER` was removed as a flag in January 2026 — the media manager is now always enabled on all platforms.
+{{< /callout >}}
 
 ### Build Command
 
@@ -108,6 +112,7 @@ The following table summarizes feature availability in web builds:
 | `FEATURE_PROJECTS` | Disabled | Not yet optimized for web |
 | `FEATURE_IMAGE_GEN` | Disabled | Not available on web |
 | `FEATURE_VOICE_MODE` | Disabled | MediaRecorder API works but UI is not ready |
-| `FEATURE_MEDIA_MANAGER` | Enabled | Fully functional on web |
+| `FEATURE_SESSION_MANAGEMENT` | Disabled | Behind feature flag |
+| Media Manager | Always enabled | No longer a feature flag (hardcoded `true`) |
 
 These flags are set in `Dockerfile.web` and compiled into the build. See [Configuration]({{< relref "/docs/api/configuration" >}}) for the full list of feature flags and how they are accessed in code.

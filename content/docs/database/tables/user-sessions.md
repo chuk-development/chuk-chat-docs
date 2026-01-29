@@ -133,6 +133,6 @@ Session revocation should use the `revoke-session` edge function rather than dir
 
 ## Related
 
-- [SessionTrackingService](/docs/services/auth/session-tracking) - Client-side session tracking
-- [Session Management](/docs/security/session-management) - Security architecture
-- [Row Level Security](/docs/database/row-level-security) - Security policy patterns
+- [SessionTrackingService](/services/auth/session-tracking) - Client-side session tracking
+- [Session Management](/security/session-management) - Security architecture
+- [Row Level Security](/database/row-level-security) - Security policy patterns

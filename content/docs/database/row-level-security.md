@@ -11,11 +11,15 @@ All tables implement RLS to ensure users can only access their own data:
 
 ```sql
 -- Enable RLS on all tables
-ALTER TABLE user_credits ENABLE ROW LEVEL SECURITY;
-ALTER TABLE credit_transactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE encrypted_chats ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_preferences ENABLE ROW LEVEL SECURITY;
+ALTER TABLE theme_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE customization_preferences ENABLE ROW LEVEL SECURITY;
 ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE project_chats ENABLE ROW LEVEL SECURITY;
 ALTER TABLE project_files ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_sessions ENABLE ROW LEVEL SECURITY;
 ```
 
 ## Policy Patterns
@@ -48,27 +52,20 @@ USING (user_id = auth.uid());
 
 ## Table Policies
 
-### user_credits
+### profiles
 
 ```sql
--- View own credits
-CREATE POLICY "Users can view own credits"
-ON user_credits FOR SELECT
-USING (user_id = auth.uid());
+CREATE POLICY "Users can select own profile"
+ON profiles FOR SELECT
+USING (id = (select auth.uid()));
 
--- Credits are managed by server functions only
--- No direct INSERT/UPDATE/DELETE policies
-```
+CREATE POLICY "Users can insert own profile"
+ON profiles FOR INSERT
+WITH CHECK (id = (select auth.uid()));
 
-### credit_transactions
-
-```sql
--- View own transaction history
-CREATE POLICY "Users can view own transactions"
-ON credit_transactions FOR SELECT
-USING (user_id = auth.uid());
-
--- Transactions created by server functions only
+CREATE POLICY "Users can update own profile"
+ON profiles FOR UPDATE
+USING (id = (select auth.uid()));
 ```
 
 ### user_preferences
@@ -131,6 +128,26 @@ WITH CHECK (
 );
 ```
 
+### user_sessions
+
+```sql
+CREATE POLICY "Users can view own sessions"
+ON user_sessions FOR SELECT
+USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own sessions"
+ON user_sessions FOR INSERT
+WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own sessions"
+ON user_sessions FOR UPDATE
+USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete own sessions"
+ON user_sessions FOR DELETE
+USING (auth.uid() = user_id);
+```
+
 ## Service Role Bypass
 
 For server-side operations, use the service role key:
@@ -154,7 +171,7 @@ Never expose the service role key in client applications.
 SET request.jwt.claim.sub = 'user-uuid-here';
 
 -- Verify SELECT policy
-SELECT * FROM user_credits; -- Should only return user's data
+SELECT * FROM profiles; -- Should only return user's data
 
 -- Verify INSERT policy
 INSERT INTO projects (user_id, name)
@@ -164,10 +181,26 @@ VALUES ('other-user-id', 'Test'); -- Should fail
 RESET request.jwt.claim.sub;
 ```
 
+## Performance: InitPlan Optimization
+
+All RLS policies use `(select auth.uid())` instead of bare `auth.uid()` to prevent per-row re-evaluation. Without the wrapping subquery, PostgreSQL calls `auth.uid()` for every row scanned, which degrades performance on large tables.
+
+```sql
+-- Bad: auth.uid() re-evaluated per row
+CREATE POLICY "example" ON table_name
+  FOR SELECT USING (user_id = auth.uid());
+
+-- Good: evaluated once via InitPlan
+CREATE POLICY "example" ON table_name
+  FOR SELECT USING (user_id = (select auth.uid()));
+```
+
+See [Supabase lint 0003](https://supabase.com/docs/guides/database/database-linter?lint=0003_auth_rls_initplan) for details. This fix was applied to all RLS policies in January 2026.
+
 ## Best Practices
 
 1. **Enable RLS on all tables** containing user data
-2. **Use auth.uid()** for user identification
+2. **Use `(select auth.uid())`** wrapped in a subquery for performance
 3. **Test policies** with different user contexts
 4. **Avoid complex subqueries** in policies (performance)
 5. **Use indexes** on user_id columns

@@ -544,6 +544,10 @@ Sessions are automatically refreshed in the background. Users only need to re-au
 
 ## Device Session Tracking
 
+{{< callout type="info" >}}
+Session tracking is behind the `FEATURE_SESSION_MANAGEMENT` feature flag and must be enabled at build time via `--dart-define=FEATURE_SESSION_MANAGEMENT=true`. When disabled, session tracking calls are skipped to prevent logout loops.
+{{< /callout >}}
+
 Chuk Chat tracks active sessions across devices using the `user_sessions` table. Each login registers a session record containing the device name, platform, app version, and a SHA-256 hash of the refresh token.
 
 ### How It Works
@@ -552,6 +556,10 @@ Chuk Chat tracks active sessions across devices using the `user_sessions` table.
 2. The refresh token is hashed with SHA-256 before storage -- the raw token never reaches the database
 3. `updateLastSeen()` is called on app resume to keep activity timestamps current
 4. Users can view all active sessions from the settings page
+
+### Force-Verify on Resume
+
+On app resume and startup, `main.dart` calls `SupabaseService.forceVerifySession()` to detect revoked tokens. This issues a lightweight session refresh; if the server returns a 401, the user is signed out immediately. This ensures that remotely revoked sessions are detected even before the next automatic token refresh.
 
 ```
 ┌────────────┐   registerSession()   ┌─────────────────┐
@@ -642,11 +650,13 @@ static Future<bool> wasRemotelySignedOut() async {
 | Device session tracking | `user_sessions` table with SHA-256 hashed tokens |
 | Remote revocation | Supabase edge function invalidates tokens |
 | Multi-device visibility | Settings page lists all active sessions |
+| Force-verify on resume | `forceVerifySession()` detects revoked tokens on app resume |
+| Feature flag guard | Session tracking wrapped in `kFeatureSessionManagement` to prevent logout loops |
 
 ## Related Documentation
 
 - [Token Handling](../token-handling) - Token security
 - [Encryption](../encryption) - Key lifecycle
 - [Rate Limiting](../rate-limiting) - Auth rate limits
-- [SessionTrackingService](/docs/services/auth/session-tracking) - Service implementation
-- [User Sessions Table](/docs/database/tables/user-sessions) - Database schema
+- [SessionTrackingService](/services/auth/session-tracking) - Service implementation
+- [User Sessions Table](/database/tables/user-sessions) - Database schema

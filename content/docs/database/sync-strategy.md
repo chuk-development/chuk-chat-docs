@@ -401,4 +401,4 @@ class ChatSyncService {
 
 - [Encrypted Chats Table](tables/encrypted-chats) - Chat storage schema
 - [Row Level Security](row-level-security) - Security during sync
-- [Security Documentation](/docs/security) - Encryption details
+- [Security Documentation](/security) - Encryption details

@@ -32,10 +32,13 @@ content/docs/
 - `docker-compose.yaml` — Hugo server with hextra volume mount
 - `data/icons.yaml` — Custom SVG icons (currently: claude icon, unused)
 
+## Workflow
+
+- **Always commit and push** after completing changes. Do not leave uncommitted work.
+
 ## Known Issues
 
 - ~44 detail pages in services/, files/, models/ subsections are truncated (only have front matter, no body content) due to a script error. Main section index pages are complete.
-- GitHub URL in navbar is a placeholder (`your-username/chuk-chat`)
 
 ## Chuk Chat Tech Stack (documented app)
 
