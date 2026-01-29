@@ -36,6 +36,11 @@ module:
   replacements:
     - github.com/imfing/hextra -> /hextra
 
+permalinks:
+  docs: /:sections[1:]/:filename/
+  section:
+    docs: /:sections[1:]/:filename/
+
 markup:
   goldmark:
     renderer:

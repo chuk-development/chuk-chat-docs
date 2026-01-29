@@ -1,3 +1,0 @@
----
-title: Chuk Chat Documentation
----
