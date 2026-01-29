@@ -3,7 +3,6 @@ title: Rate Limiting
 weight: 4
 ---
 
-# Rate Limiting
 
 Rate limiting protects the application from abuse, denial-of-service attacks, and excessive resource consumption. chuk_chat implements multiple rate limiting strategies at different levels.
 

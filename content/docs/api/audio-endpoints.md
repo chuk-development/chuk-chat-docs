@@ -78,6 +78,35 @@ Send audio as a multipart form upload:
 
 ---
 
+## Web Upload Flow
+
+{{< callout type="info" >}}
+On web, audio is recorded as a blob using the browser's MediaRecorder API. The app fetches the blob as a `Uint8List` and uploads it via `ChatApiService.transcribeAudioBytes()`, which wraps the bytes in a `MultipartFile.fromBytes()` call. The endpoint accepts the same multipart form-data regardless of platform.
+{{< /callout >}}
+
+Web recordings use the WebM/Opus format, which Groq Whisper supports natively. No server-side changes are needed to handle web-originated audio.
+
+```dart
+// Web-specific upload
+Future<String> transcribeAudioBytes(
+  Uint8List bytes, {
+  String filename = 'recording.webm',
+}) async {
+  final formData = FormData.fromMap({
+    'audio_file': MultipartFile.fromBytes(bytes, filename: filename),
+  });
+
+  final response = await _dio.post(
+    '/protected/transcribe-audio',
+    data: formData,
+  );
+
+  return response.data['text'] as String;
+}
+```
+
+---
+
 ## Supported Audio Formats
 
 | Format | Extension | Max Duration | Notes |

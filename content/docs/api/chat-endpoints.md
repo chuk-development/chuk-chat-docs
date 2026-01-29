@@ -38,6 +38,8 @@ The request body is sent as `multipart/form-data`:
 | `history` | JSON string | No | Previous conversation turns |
 | `system_prompt` | string | No | Custom system instructions |
 | `metadata` | JSON string | No | Request metadata for logging |
+| `reasoning_effort` | string | No | Reasoning effort level for reasoning models |
+| `allow_provider_fallbacks` | boolean | No | Allow fallback to alternative providers |
 | `images[]` | file(s) | No | Image attachments for vision models |
 
 ### History Format
@@ -222,6 +224,8 @@ Send a JSON message to initiate streaming:
 | `temperature` | float | No | Response creativity (0.0-2.0) |
 | `history` | array | No | Previous conversation turns |
 | `system_prompt` | string | No | Custom system instructions |
+| `reasoning_effort` | string | No | Reasoning effort level for reasoning models |
+| `allow_provider_fallbacks` | boolean | No | Allow fallback to alternative providers |
 | `images` | array | No | Base64 data URLs for vision models |
 
 ### Response Events
@@ -484,5 +488,51 @@ class CancellableStream {
     _cancelToken?.cancel('User cancelled');
     _cancelToken = null;
   }
+}
+```
+
+---
+
+## AI Configuration Endpoint
+
+```http
+GET /v1/ai/config
+```
+
+Returns AI configuration details for the current user. Optionally accepts a model identifier to get model-specific configuration.
+
+### Headers
+
+```http
+Authorization: Bearer {accessToken}
+```
+
+### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `model_id` | string | No | Model identifier to get specific configuration |
+
+### Example
+
+```dart
+Future<Map<String, dynamic>> getAiConfig({String? modelId}) async {
+  final dio = Dio();
+  final queryParams = <String, dynamic>{};
+  if (modelId != null) {
+    queryParams['model_id'] = modelId;
+  }
+
+  final response = await dio.get(
+    'https://api.chuk.chat/v1/ai/config',
+    queryParameters: queryParams,
+    options: Options(
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+      },
+    ),
+  );
+
+  return response.data as Map<String, dynamic>;
 }
 ```

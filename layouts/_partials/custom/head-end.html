@@ -3,3 +3,29 @@
   {{ $js := . | minify | fingerprint }}
   <script src="{{ $js.RelPermalink }}" defer></script>
 {{ end }}
+
+<style>
+  .arch-diagram-wrap { width: 100%; overflow-x: auto; margin: 1.5rem 0; }
+  .arch-diagram { min-width: 1400px; display: block; }
+  .arch-diagram a rect { cursor: pointer; transition: fill 0.12s, stroke-width 0.12s; }
+  .arch-diagram a:hover rect { stroke-width: 2.5; }
+  .arch-diagram text { pointer-events: none; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  :is(html[class~="dark"]) .arch-diagram a rect { fill: #18181b; stroke: #a1a1aa; }
+  :is(html[class~="dark"]) .arch-diagram a:hover rect { fill: #27272a; stroke: #e4e4e7; }
+  :is(html[class~="dark"]) .arch-diagram .node-title { fill: #fafafa; }
+  :is(html[class~="dark"]) .arch-diagram .node-sub { fill: #a1a1aa; }
+  :is(html[class~="dark"]) .arch-diagram .group-bg { fill: #09090b; stroke: #3f3f46; }
+  :is(html[class~="dark"]) .arch-diagram .group-label { fill: #71717a; }
+  :is(html[class~="dark"]) .arch-diagram .edge { stroke: #52525b; marker-end: url(#ah-dark); }
+  :is(html[class~="dark"]) .arch-diagram .edge-label { fill: #71717a; }
+
+  :not(html[class~="dark"]) .arch-diagram a rect { fill: #fafafa; stroke: #71717a; }
+  :not(html[class~="dark"]) .arch-diagram a:hover rect { fill: #f4f4f5; stroke: #18181b; }
+  :not(html[class~="dark"]) .arch-diagram .node-title { fill: #18181b; }
+  :not(html[class~="dark"]) .arch-diagram .node-sub { fill: #71717a; }
+  :not(html[class~="dark"]) .arch-diagram .group-bg { fill: #fff; stroke: #d4d4d8; }
+  :not(html[class~="dark"]) .arch-diagram .group-label { fill: #a1a1aa; }
+  :not(html[class~="dark"]) .arch-diagram .edge { stroke: #a1a1aa; marker-end: url(#ah-light); }
+  :not(html[class~="dark"]) .arch-diagram .edge-label { fill: #a1a1aa; }
+</style>

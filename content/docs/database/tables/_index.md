@@ -17,6 +17,7 @@ This section documents all database tables used by the application. Each table i
 | [user_preferences](preferences) | Model selection and system prompts |
 | [theme_settings](theme-settings) | Visual theme customization |
 | [customization_preferences](preferences) | Feature display preferences |
+| [user_sessions](user-sessions) | Device session tracking and remote sign-out |
 
 ### Chat Data
 

@@ -25,6 +25,13 @@ A secure, cross-platform chat application built with Flutter that puts privacy f
 | HTTP Client | Dio with Certificate Pinning |
 | AI API | OpenRouter |
 
+## Architecture Diagram
+
+<div style="position:relative;width:100%;height:600px;border:1px solid;border-radius:8px;overflow:hidden;margin-bottom:8px;">
+  <iframe src="/architecture-diagram/" style="width:100%;height:100%;border:none;"></iframe>
+</div>
+<a href="/architecture-diagram/" target="_blank" style="font-family:monospace;font-size:12px;">Open in new tab</a>
+
 ## Quick Navigation
 
 {{< cards >}}

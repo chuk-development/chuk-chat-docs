@@ -74,6 +74,15 @@ flutter build apk --release
 flutter build appbundle --release
 ```
 
+### Web Release
+
+```bash
+# Build for web
+flutter build web --release --base-href /
+```
+
+Web builds use the desktop UI layout via `root_wrapper_stub.dart`. Native-only packages (`desktop_drop`, `path_provider`, `permission_handler`, `record`) are replaced by stub implementations at compile time through conditional exports. File uploads use raw bytes instead of filesystem paths.
+
 ### Build Output Locations
 
 | Platform | Output Path |
@@ -84,6 +93,7 @@ flutter build appbundle --release
 | iOS | `build/ios/iphoneos/` |
 | Android APK | `build/app/outputs/flutter-apk/` |
 | Android AAB | `build/app/outputs/bundle/release/` |
+| Web | `build/web/` |
 
 ## Clean Build
 
@@ -151,6 +161,53 @@ cd android && ./gradlew clean && cd ..
 # Build specific ABI
 flutter build apk --target-platform android-arm64
 ```
+
+## Flatpak Builds
+
+Chuk Chat supports Flatpak packaging for Linux distribution:
+
+```bash
+# Build using the Flatpak build script
+./build_flatpak.sh
+```
+
+The Flatpak manifest is located at `linux/flatpak/` and defines the application's sandbox permissions, dependencies, and build instructions.
+
+## Linux Packaging with Fastlane
+
+Fastlane automates building multiple Linux package formats in a single command:
+
+```bash
+# Build all Linux packages (AppImage, DEB, RPM, Flatpak)
+bundle exec fastlane release
+```
+
+This produces distributable packages for all major Linux package managers.
+
+## Codemagic CI
+
+iOS builds are automated via Codemagic using the `codemagic.yaml` configuration file at the project root. This handles code signing, provisioning profiles, and App Store submission.
+
+## Android Signing
+
+Android release builds use a 3-tier priority system for signing configuration:
+
+1. **Environment variables** -- Used in CI environments (e.g., `ANDROID_KEYSTORE_PATH`, `ANDROID_KEY_ALIAS`)
+2. **key.properties** -- Local file at `android/key.properties` with keystore path and credentials
+3. **Debug keystore** -- Fallback for development builds when no release signing is configured
+
+The build system checks each tier in order and uses the first available configuration.
+
+## Local Build Script
+
+For automated local release builds across platforms:
+
+```bash
+# Run the local build script
+./scripts/build-release.sh
+```
+
+This script handles the full build pipeline including dependency resolution, code generation, and platform-specific packaging.
 
 ## Environment Variables
 

@@ -35,6 +35,19 @@ flutter build apk \
 | `SENTRY_DSN` | Sentry error tracking DSN | (none) |
 | `ANALYTICS_ID` | Analytics tracking ID | (none) |
 
+### Credential Resolution Priority
+
+Chuk Chat resolves Supabase credentials using a 4-tier system. The app checks each source in order and uses the first non-empty value:
+
+| Priority | Source | Platform |
+|----------|--------|----------|
+| 1 | `--dart-define` compile-time constants | Mobile and desktop release builds |
+| 2 | Generated `web_env.dart` constants | Web Docker builds |
+| 3 | Runtime `.env` file | Desktop development |
+| 4 | Placeholder fallback | Catches missing config at startup |
+
+On web, `--dart-define` values are not reliably embedded by `dart2js` in release builds. To solve this, the Docker build (`Dockerfile.web`) generates a `lib/web_env.dart` file at build time containing Supabase credentials as plain Dart constants. See [Web Deployment]({{< relref "/docs/development/web-deployment" >}}) for details on the Docker build process.
+
 ### Accessing in Code
 
 ```dart

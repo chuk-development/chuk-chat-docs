@@ -3,7 +3,6 @@ title: Threat Model
 weight: 7
 ---
 
-# Threat Model
 
 This document outlines the security threats considered in chuk_chat's design and the mitigations implemented to address them.
 

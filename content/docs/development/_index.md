@@ -75,4 +75,5 @@ chuk_chat/
   {{< card link="debugging" title="Debugging" subtitle="Debug techniques" >}}
   {{< card link="dependencies" title="Dependencies" subtitle="Package management" >}}
   {{< card link="git-workflow" title="Git Workflow" subtitle="Branch strategy" >}}
+  {{< card link="web-deployment" title="Web Deployment" subtitle="Docker + nginx for web" >}}
 {{< /cards >}}

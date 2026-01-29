@@ -3,8 +3,6 @@ title: Session Management
 weight: 6
 ---
 
-# Session Management
-
 Secure session management is critical for maintaining user authentication state while protecting against session hijacking and unauthorized access. chuk_chat implements robust session handling with multiple security layers.
 
 ## Session Architecture
@@ -544,6 +542,92 @@ class SessionConfig {
 Sessions are automatically refreshed in the background. Users only need to re-authenticate when their password changes or after extended inactivity.
 {{< /callout >}}
 
+## Device Session Tracking
+
+Chuk Chat tracks active sessions across devices using the `user_sessions` table. Each login registers a session record containing the device name, platform, app version, and a SHA-256 hash of the refresh token.
+
+### How It Works
+
+1. On sign-in, `SessionTrackingService.registerSession()` upserts a row in `user_sessions`
+2. The refresh token is hashed with SHA-256 before storage -- the raw token never reaches the database
+3. `updateLastSeen()` is called on app resume to keep activity timestamps current
+4. Users can view all active sessions from the settings page
+
+```
+┌────────────┐   registerSession()   ┌─────────────────┐
+│  Sign In   │──────────────────────►│  user_sessions   │
+└────────────┘   (upsert by hash)    │  table           │
+                                     └─────────────────┘
+┌────────────┐   listActiveSessions()        │
+│  Settings  │◄──────────────────────────────┘
+└────────────┘
+```
+
+### SHA-256 Token Hashing
+
+Refresh tokens are hashed before being stored in the `user_sessions` table:
+
+```dart
+static String _hashToken(String token) {
+  final bytes = utf8.encode(token);
+  final digest = sha256.convert(bytes);
+  return digest.toString();
+}
+```
+
+This ensures that if the database is compromised, refresh tokens cannot be recovered. The hash serves only as a unique identifier for upsert conflict resolution via the `(user_id, refresh_token_hash)` unique constraint.
+
+## Remote Session Revocation
+
+Users can revoke any active session from the settings page. Revocation is handled by a Supabase edge function to ensure the refresh token is also invalidated server-side.
+
+### Revocation Flow
+
+```
+Device A (initiates revoke):           Device B (revoked session):
+┌─────────────────────────┐            ┌─────────────────────────┐
+│ 1. Tap "Revoke" on      │            │ 1. App resumes or       │
+│    session entry         │            │    token refresh fires  │
+│ 2. Call revokeSession()  │            │ 2. Refresh returns 401  │
+│ 3. Edge function:        │            │ 3. Auth listener        │
+│    a. Invalidate token   │            │    triggers sign-out    │
+│    b. Mark session       │            │ 4. Remote sign-out flag │
+│       inactive in DB     │            │    set in secure store  │
+└─────────────────────────┘            │ 5. Login page shows     │
+                                       │    info banner           │
+                                       └─────────────────────────┘
+```
+
+### Supabase Edge Function
+
+The `revoke-session` edge function accepts either a `session_id` (to revoke a single session) or an `exclude_session_id` (to revoke all sessions except the current one):
+
+```
+POST /functions/v1/revoke-session
+
+Body (single revoke):
+{ "session_id": "uuid" }
+
+Body (revoke all others):
+{ "exclude_session_id": "uuid" }
+```
+
+The edge function:
+1. Looks up the session record to find the associated refresh token hash
+2. Invalidates the refresh token in Supabase Auth
+3. Sets `is_active = false` on the session record
+
+### Remote Sign-Out Detection
+
+When a device's token is revoked remotely, the next token refresh will fail with a 401. The app detects this and sets a flag in `FlutterSecureStorage` so the login page can display an informational banner:
+
+```dart
+static Future<bool> wasRemotelySignedOut() async {
+  final value = await _storage.read(key: _remoteSignOutKey);
+  return value == 'true';
+}
+```
+
 ## Session Security Checklist
 
 | Security Measure | Implementation |
@@ -555,9 +639,14 @@ Sessions are automatically refreshed in the background. Users only need to re-au
 | Lifecycle management | Background timeout |
 | Idle timeout | Configurable duration |
 | Secure logout | Clear all credentials |
+| Device session tracking | `user_sessions` table with SHA-256 hashed tokens |
+| Remote revocation | Supabase edge function invalidates tokens |
+| Multi-device visibility | Settings page lists all active sessions |
 
 ## Related Documentation
 
 - [Token Handling](../token-handling) - Token security
 - [Encryption](../encryption) - Key lifecycle
 - [Rate Limiting](../rate-limiting) - Auth rate limits
+- [SessionTrackingService](/docs/services/auth/session-tracking) - Service implementation
+- [User Sessions Table](/docs/database/tables/user-sessions) - Database schema

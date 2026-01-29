@@ -3,7 +3,6 @@ title: Certificate Pinning
 weight: 2
 ---
 
-# Certificate Pinning
 
 Certificate pinning provides an additional layer of transport security by validating that the server's SSL certificate matches a known fingerprint. This protects against man-in-the-middle (MITM) attacks, even if an attacker has compromised a Certificate Authority.
 

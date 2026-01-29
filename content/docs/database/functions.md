@@ -222,6 +222,30 @@ END;
 $$;
 ```
 
+## Edge Functions
+
+### revoke-session
+
+A Supabase Edge Function at `supabase/functions/revoke-session/index.ts` that invalidates user sessions by revoking refresh tokens through the Supabase Admin API.
+
+The function supports two modes:
+
+| Mode | Parameter | Description |
+|------|-----------|-------------|
+| **Single session** | `session_id` | Revokes a specific session by its ID |
+| **Revoke all others** | `current_token_hash` | Revokes all sessions except the one matching the provided token hash |
+
+**Security**: The function validates session ownership before performing any revocation -- a user can only revoke their own sessions. It uses the Supabase Admin API with a service role key to invalidate the underlying refresh tokens.
+
+```typescript
+// supabase/functions/revoke-session/index.ts
+// POST /revoke-session
+// Body: { session_id: string } OR { current_token_hash: string }
+// Auth: Bearer token (validated against session owner)
+```
+
+---
+
 ## Calling Functions from Dart
 
 ```dart

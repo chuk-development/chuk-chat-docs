@@ -3,7 +3,6 @@ title: Security Checklist
 weight: 8
 ---
 
-# Security Checklist
 
 This comprehensive checklist documents all security features implemented in chuk_chat. Use this as a reference for security audits and compliance verification.
 

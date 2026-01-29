@@ -57,6 +57,15 @@ Manages secure password workflows:
 - **PasswordChangeService** - Atomic password changes with data re-encryption
 - **PasswordRevisionService** - Multi-device session invalidation
 
+### [SessionTrackingService](session-tracking)
+
+Tracks active device sessions across platforms:
+
+- Device session registration with SHA-256 hashed refresh tokens
+- Active session listing for settings UI
+- Remote session revocation via Supabase edge function
+- Remote sign-out detection and login page banner
+
 ## Security Architecture
 
 ### End-to-End Encryption

@@ -3,7 +3,6 @@ title: Input Validation
 weight: 3
 ---
 
-# Input Validation
 
 Comprehensive input validation is a critical defense layer that protects against injection attacks, malicious uploads, and data integrity issues. chuk_chat validates all user input at multiple levels.
 

@@ -279,6 +279,10 @@ class SaltService {
 
 The key derivation is intentionally slow to resist brute-force attacks. The derived key is cached in secure storage to avoid repeated derivation.
 
+## Privacy-Aware Logging
+
+All debug logging throughout the application is guarded by `kDebugMode` checks, ensuring that no diagnostic output is emitted in release builds. This prevents accidental exposure of sensitive data (encryption parameters, key identifiers, token fragments) through platform log systems. No sensitive data is ever written to logs, even in debug mode.
+
 ## Related Documentation
 
 - [Token Handling](../token-handling) - Secure token management

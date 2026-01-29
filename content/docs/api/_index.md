@@ -23,12 +23,38 @@ Tokens are obtained through Supabase authentication and should be refreshed befo
 
 ## Endpoints Overview
 
-| Category | Base Path | Description |
-|----------|-----------|-------------|
-| Chat | `/protected/chat` | Message streaming and completions |
-| Audio | `/protected/transcribe-audio` | Speech-to-text transcription |
-| Models | `/api/models` | Available AI models |
-| Health | `/health` | Service status |
+### Public Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/health` | Health check (status, active_connections) |
+| GET | `/` | Root/info |
+| GET | `/v1/models_info` | Public models info (no auth required) |
+
+### Protected Endpoints (Bearer Token)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/v1/ai/chat` | Chat streaming (SSE) |
+| WS | `/v1/ai/chat/ws` | Chat streaming (WebSocket) |
+| GET | `/v1/ai/models` | List available AI models |
+| GET | `/v1/ai/config` | AI configuration (optional `model_id` query param) |
+| POST | `/v1/ai/convert-file` | File to markdown conversion |
+| POST | `/v1/ai/generate-image` | Image generation |
+| POST | `/v1/ai/inworld-tts` | Text-to-speech (Inworld) |
+| POST | `/protected/transcribe-audio` | Audio transcription (Groq Whisper) |
+| GET | `/user/status` | Subscription and credit status |
+| GET | `/user/free-messages` | Free message allowance |
+| DELETE | `/user/delete-account` | Account deletion |
+| POST | `/stripe/create-checkout-session` | Start subscription |
+| POST | `/stripe/create-portal-session` | Manage subscription |
+| POST | `/stripe/sync-subscription` | Sync subscription state |
+
+### Webhook Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/webhooks/stripe` | Stripe webhook handler |
 
 ## Response Format
 
@@ -68,6 +94,11 @@ All responses use JSON format with consistent structure:
 {{< cards >}}
   {{< card link="chat-endpoints" title="Chat Endpoints" subtitle="Streaming and completions" >}}
   {{< card link="audio-endpoints" title="Audio Endpoints" subtitle="Speech transcription" >}}
+  {{< card link="file-endpoints" title="File Endpoints" subtitle="File to markdown conversion" >}}
+  {{< card link="image-endpoints" title="Image Endpoints" subtitle="Image generation" >}}
   {{< card link="configuration" title="Configuration" subtitle="Models and settings" >}}
+  {{< card link="models-endpoint" title="Models" subtitle="Available AI models" >}}
+  {{< card link="tts-endpoint" title="Text-to-Speech" subtitle="Inworld TTS" >}}
+  {{< card link="user-endpoints" title="User & Billing" subtitle="Subscriptions and account" >}}
   {{< card link="error-handling" title="Error Handling" subtitle="Error codes and responses" >}}
 {{< /cards >}}
