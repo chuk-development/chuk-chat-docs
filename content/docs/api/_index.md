@@ -43,7 +43,6 @@ Tokens are obtained through Supabase authentication and should be refreshed befo
 | POST | `/v1/ai/generate-image` | Image generation |
 | POST | `/v1/ai/transcribe-audio` | Audio transcription (Groq Whisper) |
 | GET | `/v1/user/status` | Subscription and credit status |
-| GET | `/v1/user/free-messages` | Free message allowance |
 | DELETE | `/v1/user/delete-account` | Account deletion |
 | POST | `/v1/stripe/create-checkout-session` | Start subscription |
 | POST | `/v1/stripe/create-portal-session` | Manage subscription |

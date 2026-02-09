@@ -64,40 +64,6 @@ Future<Map<String, dynamic>> getUserStatus() async {
 
 ---
 
-## Free Messages
-
-```http
-GET /v1/user/free-messages
-```
-
-Returns the user's free message allowance status.
-
-### Headers
-
-```http
-Authorization: Bearer {accessToken}
-```
-
-### Example
-
-```dart
-Future<Map<String, dynamic>> getFreeMessages() async {
-  final dio = Dio();
-  final response = await dio.get(
-    'https://api.chuk.chat/v1/user/free-messages',
-    options: Options(
-      headers: {
-        'Authorization': 'Bearer $accessToken',
-      },
-    ),
-  );
-
-  return response.data as Map<String, dynamic>;
-}
-```
-
----
-
 ## Delete Account
 
 ```http
