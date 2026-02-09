@@ -74,7 +74,7 @@ chuk_chat is a cross-platform Flutter application that enables secure AI chat wi
 - WS /v1/ai/chat/ws - WebSocket streaming
 - POST /v1/ai/convert-file - File conversion
 - POST /v1/ai/generate-image - Image generation
-- POST /protected/transcribe-audio - Audio transcription
+- POST /v1/ai/transcribe-audio - Audio transcription
 
 ### Database (8 tables)
 - profiles - User profiles and credits

@@ -4,6 +4,10 @@ weight: 7
 ---
 
 
+{{< callout type="warning" >}}
+This endpoint is currently disabled and not available. It may be re-enabled in a future version.
+{{< /callout >}}
+
 The text-to-speech endpoint converts text into audio using the Inworld TTS service.
 
 ## Generate Speech
@@ -12,7 +16,7 @@ The text-to-speech endpoint converts text into audio using the Inworld TTS servi
 POST /v1/ai/inworld-tts
 ```
 
-Converts text to audio and returns an audio stream.
+Converts text to audio and returns an audio stream. **Status: Disabled**
 
 ### Headers
 

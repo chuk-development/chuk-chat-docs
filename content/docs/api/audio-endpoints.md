@@ -8,7 +8,7 @@ The audio transcription endpoint converts spoken audio to text using Groq's high
 ## Transcribe Audio Endpoint
 
 ```http
-POST /protected/transcribe-audio
+POST /v1/ai/transcribe-audio
 ```
 
 ### Headers
@@ -97,7 +97,7 @@ Future<String> transcribeAudioBytes(
   });
 
   final response = await _dio.post(
-    '/protected/transcribe-audio',
+    '/v1/ai/transcribe-audio',
     data: formData,
   );
 
@@ -142,7 +142,7 @@ Future<String> transcribeAudio(File audioFile) async {
   });
 
   final response = await dio.post(
-    'https://api.chuk.chat/protected/transcribe-audio',
+    'https://api.chuk.chat/v1/ai/transcribe-audio',
     data: formData,
     options: Options(
       headers: {
@@ -177,7 +177,7 @@ Future<TranscriptionResult> transcribeWithContext({
   });
 
   final response = await dio.post(
-    'https://api.chuk.chat/protected/transcribe-audio',
+    'https://api.chuk.chat/v1/ai/transcribe-audio',
     data: formData,
     options: Options(
       headers: {
@@ -461,7 +461,7 @@ class TranscriptionService {
       });
 
       final response = await _dio.post(
-        '/protected/transcribe-audio',
+        '/v1/ai/transcribe-audio',
         data: formData,
       );
 

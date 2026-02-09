@@ -41,14 +41,13 @@ Tokens are obtained through Supabase authentication and should be refreshed befo
 | GET | `/v1/ai/config` | AI configuration (optional `model_id` query param) |
 | POST | `/v1/ai/convert-file` | File to markdown conversion |
 | POST | `/v1/ai/generate-image` | Image generation |
-| POST | `/v1/ai/inworld-tts` | Text-to-speech (Inworld) |
-| POST | `/protected/transcribe-audio` | Audio transcription (Groq Whisper) |
-| GET | `/user/status` | Subscription and credit status |
-| GET | `/user/free-messages` | Free message allowance |
-| DELETE | `/user/delete-account` | Account deletion |
-| POST | `/stripe/create-checkout-session` | Start subscription |
-| POST | `/stripe/create-portal-session` | Manage subscription |
-| POST | `/stripe/sync-subscription` | Sync subscription state |
+| POST | `/v1/ai/transcribe-audio` | Audio transcription (Groq Whisper) |
+| GET | `/v1/user/status` | Subscription and credit status |
+| GET | `/v1/user/free-messages` | Free message allowance |
+| DELETE | `/v1/user/delete-account` | Account deletion |
+| POST | `/v1/stripe/create-checkout-session` | Start subscription |
+| POST | `/v1/stripe/create-portal-session` | Manage subscription |
+| POST | `/v1/stripe/sync-subscription` | Sync subscription state |
 
 ### Webhook Endpoints
 

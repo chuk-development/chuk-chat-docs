@@ -9,7 +9,7 @@ Endpoints for managing user account status, subscriptions, and billing through S
 ## User Status
 
 ```http
-GET /user/status
+GET /v1/user/status
 ```
 
 Returns the current user's subscription and credit status.
@@ -50,7 +50,7 @@ Authorization: Bearer {accessToken}
 Future<Map<String, dynamic>> getUserStatus() async {
   final dio = Dio();
   final response = await dio.get(
-    'https://api.chuk.chat/user/status',
+    'https://api.chuk.chat/v1/user/status',
     options: Options(
       headers: {
         'Authorization': 'Bearer $accessToken',
@@ -67,7 +67,7 @@ Future<Map<String, dynamic>> getUserStatus() async {
 ## Free Messages
 
 ```http
-GET /user/free-messages
+GET /v1/user/free-messages
 ```
 
 Returns the user's free message allowance status.
@@ -84,7 +84,7 @@ Authorization: Bearer {accessToken}
 Future<Map<String, dynamic>> getFreeMessages() async {
   final dio = Dio();
   final response = await dio.get(
-    'https://api.chuk.chat/user/free-messages',
+    'https://api.chuk.chat/v1/user/free-messages',
     options: Options(
       headers: {
         'Authorization': 'Bearer $accessToken',
@@ -101,7 +101,7 @@ Future<Map<String, dynamic>> getFreeMessages() async {
 ## Delete Account
 
 ```http
-DELETE /user/delete-account
+DELETE /v1/user/delete-account
 ```
 
 Permanently deletes the user's account and cancels any active subscriptions.
@@ -122,7 +122,7 @@ This action is irreversible. All user data, conversation history, and subscripti
 Future<void> deleteAccount() async {
   final dio = Dio();
   await dio.delete(
-    'https://api.chuk.chat/user/delete-account',
+    'https://api.chuk.chat/v1/user/delete-account',
     options: Options(
       headers: {
         'Authorization': 'Bearer $accessToken',
@@ -137,7 +137,7 @@ Future<void> deleteAccount() async {
 ## Stripe: Create Checkout Session
 
 ```http
-POST /stripe/create-checkout-session
+POST /v1/stripe/create-checkout-session
 ```
 
 Creates a Stripe checkout session for starting a new subscription.
@@ -162,7 +162,7 @@ Authorization: Bearer {accessToken}
 Future<String> createCheckoutSession() async {
   final dio = Dio();
   final response = await dio.post(
-    'https://api.chuk.chat/stripe/create-checkout-session',
+    'https://api.chuk.chat/v1/stripe/create-checkout-session',
     options: Options(
       headers: {
         'Authorization': 'Bearer $accessToken',
@@ -179,7 +179,7 @@ Future<String> createCheckoutSession() async {
 ## Stripe: Create Portal Session
 
 ```http
-POST /stripe/create-portal-session
+POST /v1/stripe/create-portal-session
 ```
 
 Creates a Stripe customer portal session for managing an existing subscription.
@@ -204,7 +204,7 @@ Authorization: Bearer {accessToken}
 Future<String> createPortalSession() async {
   final dio = Dio();
   final response = await dio.post(
-    'https://api.chuk.chat/stripe/create-portal-session',
+    'https://api.chuk.chat/v1/stripe/create-portal-session',
     options: Options(
       headers: {
         'Authorization': 'Bearer $accessToken',
@@ -221,7 +221,7 @@ Future<String> createPortalSession() async {
 ## Stripe: Sync Subscription
 
 ```http
-POST /stripe/sync-subscription
+POST /v1/stripe/sync-subscription
 ```
 
 Manually synchronizes the user's subscription state between Stripe and the backend. Use this when the subscription status appears out of date.
@@ -238,7 +238,7 @@ Authorization: Bearer {accessToken}
 Future<void> syncSubscription() async {
   final dio = Dio();
   await dio.post(
-    'https://api.chuk.chat/stripe/sync-subscription',
+    'https://api.chuk.chat/v1/stripe/sync-subscription',
     options: Options(
       headers: {
         'Authorization': 'Bearer $accessToken',
