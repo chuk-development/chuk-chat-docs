@@ -37,7 +37,8 @@
   #canvas svg { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
 
   /* SVG styles */
-  svg a rect { cursor: pointer; transition: stroke-width 0.1s, fill 0.1s; }
+  svg a { cursor: pointer; }
+  svg a rect { transition: stroke-width 0.1s, fill 0.1s; }
   svg a:hover rect { stroke-width: 2.5 !important; }
   svg text { pointer-events: none; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 
@@ -404,6 +405,9 @@ document.addEventListener('keydown', e => {
   if (e.key === 'f') fitAll();
   if (e.key === 'F11') { e.preventDefault(); toggleFullscreen(); }
 });
+
+// Make all SVG links open in the parent page (escape iframe)
+document.querySelectorAll('#diagram a').forEach(a => a.setAttribute('target', '_top'));
 
 // Initial fit
 window.addEventListener('load', fitAll);
