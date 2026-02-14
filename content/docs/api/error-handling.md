@@ -85,8 +85,12 @@ All API errors follow a consistent JSON structure:
 
 | Code | HTTP Status | Description | Resolution |
 |------|-------------|-------------|------------|
-| `INSUFFICIENT_CREDITS` | 402 | Not enough credits | Add credits or reduce usage |
+| `INSUFFICIENT_CREDITS` | 402 | Not enough credits | Add credits or upgrade subscription |
 | `BILLING_ERROR` | 402 | Payment processing failed | Update payment method |
+
+{{< callout type="info" >}}
+**Server-side credit validation**: Credit and free-message checks were moved to the API server in February 2026. The client no longer calls Supabase RPC to check credits before sending messages. Instead, the server validates credits and returns HTTP 402 when credits are exhausted. The client responds by showing an upgrade dialog.
+{{< /callout >}}
 
 **Example Response:**
 ```json
@@ -99,6 +103,19 @@ All API errors follow a consistent JSON structure:
       "available": 0.02,
       "operation": "image_generation"
     }
+  }
+}
+```
+
+**Client handling:**
+```dart
+// Chat UI sends message directly — no client-side credit check
+try {
+  await sendMessage(content);
+} on DioException catch (e) {
+  if (e.response?.statusCode == 402) {
+    // Show upgrade dialog
+    showUpgradeDialog(context);
   }
 }
 ```

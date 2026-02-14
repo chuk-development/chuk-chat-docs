@@ -44,7 +44,7 @@ class ChatPage extends StatefulWidget {
 
 ### Service Layer
 
-Located in `lib/services/` with 43 service files:
+Located in `lib/services/` with 51 service files:
 
 - Business logic and validation
 - API communication

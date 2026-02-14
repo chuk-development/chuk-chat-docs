@@ -12,6 +12,7 @@ Testing strategies and patterns for Chuk Chat.
 | Unit | `test/` | Individual functions and classes |
 | Widget | `test/` | UI component behavior |
 | Integration | `integration_test/` | Full app flows |
+| E2E (Maestro) | `.maestro/flows/` | Automated UI smoke tests on real devices/emulators |
 
 ## Running Tests
 
@@ -27,6 +28,9 @@ flutter test --coverage
 
 # Run integration tests
 flutter test integration_test/
+
+# Run Maestro E2E smoke tests (requires running emulator/device)
+./scripts/run-maestro.sh
 ```
 
 ## Unit Testing
@@ -244,6 +248,37 @@ genhtml coverage/lcov.info -o coverage/html
 open coverage/html/index.html
 ```
 
+## Maestro E2E Smoke Tests
+
+Maestro provides automated UI testing by interacting with the real app through the accessibility tree. The project includes 4 smoke test flows:
+
+| Flow | File | Description |
+|------|------|-------------|
+| Login | `.maestro/flows/login.yaml` | Authenticate with test credentials |
+| Send Message | `.maestro/flows/smoke_send_message.yaml` | Send a message and verify AI response |
+| Switch Chat | `.maestro/flows/smoke_switch_chat.yaml` | Create and switch between chats |
+| Model Select | `.maestro/flows/smoke_model_select.yaml` | Open model selector and change model |
+
+Widgets are targeted using `Semantics` identifiers (11 added to key widgets), making tests resilient to UI layout changes.
+
+```bash
+# Run all Maestro flows
+./scripts/run-maestro.sh
+
+# Run a specific flow
+maestro test .maestro/flows/smoke_send_message.yaml
+```
+
+## Test Coverage Summary
+
+The project currently has 444+ unit tests across these categories:
+
+| Category | Files | Description |
+|----------|-------|-------------|
+| Services | `test/services/` | EncryptionService, StreamingManager, ImageCompressionService, MessageCompositionService, NetworkStatusService |
+| Models | `test/models/` | ChatMessage, ChatModel, ChatStreamEvent, ProjectModel, StoredChat |
+| Utils | `test/utils/` | ApiRateLimiter, ApiRequestQueue, ExponentialBackoff, FileUploadValidator, InputValidator, LruByteCache, SecureTokenHandler, ServiceErrorHandler, TokenEstimator, UploadRateLimiter |
+
 ## Best Practices
 
 1. **Test behavior, not implementation** - Focus on what, not how
@@ -251,3 +286,4 @@ open coverage/html/index.html
 3. **Follow AAA pattern** - Arrange, Act, Assert
 4. **Mock external dependencies** - API calls, storage, etc.
 5. **Test edge cases** - Empty inputs, errors, boundaries
+6. **Add regression tests** - Write tests for fixed bugs to prevent recurrence (e.g., `streaming_manager_test.dart` for chat-switch bug)

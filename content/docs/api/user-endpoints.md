@@ -70,7 +70,7 @@ Future<Map<String, dynamic>> getUserStatus() async {
 DELETE /v1/user/delete-account
 ```
 
-Permanently deletes the user's account and cancels any active subscriptions.
+Permanently deletes the user's account, all associated data, and cancels any active subscriptions. This endpoint supports GDPR right-to-erasure requests.
 
 ### Headers
 
@@ -79,13 +79,22 @@ Authorization: Bearer {accessToken}
 ```
 
 {{< callout type="warning" >}}
-This action is irreversible. All user data, conversation history, and subscription information will be permanently deleted.
+This action is irreversible. All user data, conversation history, encryption keys, and subscription information will be permanently deleted. The user is automatically signed out on success.
 {{< /callout >}}
 
-### Example
+### Client Integration
+
+The account deletion UI is accessible from the "Danger Zone" section in `AccountSettingsPage`. A confirmation dialog requires the user to explicitly confirm before the request is sent.
 
 ```dart
-Future<void> deleteAccount() async {
+// lib/pages/account_settings_page.dart
+Future<void> _deleteAccount() async {
+  final confirmed = await showConfirmationDialog(
+    title: 'Delete Account',
+    message: 'This will permanently delete your account and all data.',
+  );
+  if (!confirmed) return;
+
   final dio = Dio();
   await dio.delete(
     'https://api.chuk.chat/v1/user/delete-account',
@@ -95,6 +104,8 @@ Future<void> deleteAccount() async {
       },
     ),
   );
+  // Sign out on success
+  await AuthService.signOut();
 }
 ```
 

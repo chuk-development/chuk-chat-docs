@@ -38,7 +38,7 @@ content/docs/
 
 ## Known Issues
 
-- ~44 detail pages in services/, files/, models/ subsections are truncated (only have front matter, no body content) due to a script error. Main section index pages are complete.
+- ~~44 detail pages in services/, files/, models/ subsections are truncated~~ (Resolved -- all pages now have full body content)
 
 ## Chuk Chat Tech Stack (documented app)
 

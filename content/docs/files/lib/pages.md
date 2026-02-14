@@ -11,7 +11,7 @@ The `lib/pages/` directory contains full-screen page widgets rendered within the
 |------|--------|-------------|
 | `login_page.dart` | `LoginPage` | Email/password authentication with signup, password strength validation, and Supabase auth integration. |
 | `settings_page.dart` | `SettingsPage` | Main settings hub: account, theme, customization, system prompt, data export/import, and logout. |
-| `account_settings_page.dart` | `AccountSettingsPage` | Account management: email display, password change, session management link. |
+| `account_settings_page.dart` | `AccountSettingsPage` | Account management: email display, password change, session management link, and account deletion (GDPR "Danger Zone"). |
 | `session_management_page.dart` | `SessionManagementPage` | View and revoke active sessions across devices. |
 | `theme_page.dart` | `ThemePage` | Theme customization: light/dark/system mode, accent color, icon color, background color, film grain toggle. |
 | `customization_page.dart` | `CustomizationPage` | Behavior toggles: auto-send voice transcription, reasoning tokens, model info display, TPS counter, image generation settings. |

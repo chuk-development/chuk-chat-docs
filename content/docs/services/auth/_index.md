@@ -39,7 +39,7 @@ Orchestrates the complete authentication flow including:
 - Email/password sign up with display name
 - Sign in with automatic encryption key initialization
 - Sign out with secure key clearing
-- Integration with chat loading on authentication
+- Email enumeration detection on signup
 
 ### [EncryptionService](encryption-service)
 
@@ -56,6 +56,7 @@ Manages secure password workflows:
 
 - **PasswordChangeService** - Atomic password changes with data re-encryption
 - **PasswordRevisionService** - Multi-device session invalidation
+- Centralized password validation through `InputValidator` (minimum 8 characters)
 
 ### [SessionTrackingService](session-tracking)
 
@@ -65,6 +66,15 @@ Tracks active device sessions across platforms:
 - Active session listing for settings UI
 - Remote session revocation via Supabase edge function
 - Remote sign-out detection and login page banner
+
+### SessionManagerService (new)
+
+Manages auth state transitions and per-user initialization. Extracted from `main.dart` in February 2026:
+
+- Listens to `onAuthStateChange` from Supabase
+- Per-user initialization guard prevents re-initialization on token refresh
+- Handles session activation (chat loading, sync, theme from Supabase, model prefetch)
+- Simplified `AuthGate` from a 20-iteration retry loop to a single synchronous session check + stream listener
 
 ## Security Architecture
 
@@ -106,9 +116,9 @@ await AuthService.signInWithPassword(email, password);
 
 // Internal flow:
 // a) SupabaseService authenticates with Supabase
-// b) EncryptionService derives key from password
-// c) ChatStorageService loads encrypted chats
-// d) ChatSyncService starts background sync
+// b) onAuthStateChange fires → SessionManagerService handles session
+// c) EncryptionService derives key from password
+// d) AppInitializationService loads user data (chats, sync, theme, models)
 ```
 
 ## Error Handling

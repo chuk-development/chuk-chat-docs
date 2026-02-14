@@ -29,3 +29,9 @@ App Start
 ```
 
 `ApiConfigService` uses conditional exports to provide a platform-specific implementation: `api_config_service_io.dart` for native platforms (uses `dart:io` for `Platform` detection) and `api_config_service_stub.dart` for web (returns `'web'` as the platform name).
+
+## Recent Changes (February 2026)
+
+- **Hardcoded fallback model removed**: The default model (`deepseek/deepseek-chat-v3.1`) is no longer hardcoded in the client. A database trigger (`default_model_provider.sql`) now sets the default model on new user profiles. `UserPreferencesService` includes a `forceLoadSelectedModel()` method to load it.
+- **Credit checks moved server-side**: The client no longer calls Supabase RPC to check credits before sending messages. The API server validates credits and returns HTTP 402 when exhausted. `ModelCacheService` is now cleared when deleting provider preferences to avoid stale state.
+- **Desktop startup parallelized**: `flutter_secure_storage` deletes, storage reads, `NotificationService.init`, theme loading, and `SharedPreferences` writes are now parallelized to eliminate UI freeze on desktop startup.

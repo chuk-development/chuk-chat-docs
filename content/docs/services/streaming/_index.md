@@ -11,7 +11,7 @@ Chuk Chat streams AI responses token-by-token to provide instant feedback. The s
 
 | Service | Responsibility |
 |---------|---------------|
-| [`StreamingManager`](./streaming-manager) | Orchestrates multiple concurrent streams, buffers content, manages lifecycle and background notifications |
+| [`StreamingManager`](./streaming-manager) | Orchestrates multiple concurrent streams, buffers content, preserves responses on chat switch, manages lifecycle and background notifications |
 | [`StreamingChatService`](./http-streaming) | Low-level SSE client that sends requests and yields `ChatStreamEvent` objects |
 | [`StreamingForegroundService`](./foreground-service) | Android foreground service to keep streams alive when the app is backgrounded |
 
@@ -34,6 +34,16 @@ StreamingChatService.sendStreamingChat()
 
 - **`streaming_manager_io.dart`** (Android/iOS/desktop) -- Integrates with `StreamingForegroundService` and `NotificationService` for background streaming notifications
 - **`streaming_manager_stub.dart`** (Web) -- Same core logic without platform notification APIs
+
+## WebSocket Timeouts
+
+The WebSocket transport (`websocket_chat_service.dart`) enforces three timeouts to prevent indefinite hangs:
+
+| Timeout | Duration | Purpose |
+|---------|----------|---------|
+| Connection | 15 seconds | Maximum time to establish WebSocket handshake |
+| First chunk | 120 seconds | Maximum wait for the first response chunk |
+| Idle | 60 seconds | Maximum silence between consecutive chunks |
 
 ## Related
 

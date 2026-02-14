@@ -22,13 +22,16 @@ The security architecture follows these core principles:
 | Feature | Implementation | Status |
 |---------|---------------|--------|
 | End-to-End Encryption | AES-256-GCM with PBKDF2 | Active |
-| Certificate Pinning | SHA-256 fingerprint validation | Production |
+| Certificate Pinning | Real SHA-256 fingerprint via `badCertificateCallback` | Production |
 | ZDR Provider Filtering | Automatic non-ZDR provider blocking | Active |
-| Input Validation | Multi-layer validation | Active |
+| Input Validation | Multi-layer validation, min password 8 chars | Active |
 | Rate Limiting | Per-endpoint and per-user | Active |
 | Token Security | Masking, sanitization, secure comparison | Active |
 | Session Management | Revision detection, auto-refresh | Active |
 | Row Level Security | PostgreSQL RLS policies | Active |
+| Debug Log Protection | `kDebugMode` guards on all `debugPrint` calls | Active |
+| Android Backup Disabled | `allowBackup=false` + `dataExtractionRules` | Active |
+| Image Validation | Magic byte verification, decompression bomb detection | Active |
 
 ## Quick Links
 
@@ -81,6 +84,20 @@ The security architecture follows these core principles:
 │  └─────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+## Recent Security Hardening (February 2026)
+
+Several security improvements were applied across the codebase:
+
+- **kDebugMode guards**: All 873 `debugPrint()` calls across 53 files wrapped in `kDebugMode` checks to prevent information leakage in release builds
+- **Android backup disabled**: `allowBackup=false`, `fullBackupContent=false`, and custom `dataExtractionRules` added to `AndroidManifest.xml` to prevent encryption keys and cached messages from leaking into cloud or device-transfer backups
+- **Password minimum raised to 8**: Updated in both Supabase `config.toml` and `InputValidator.minPasswordLength`
+- **Certificate pinning domain fix**: Subdomain matching now uses exact match or dot-prefixed check (`host == domain || host.endsWith('.domain')`) to prevent bypass via crafted hostnames
+- **WebSocket timeouts**: Connection timeout (15s), first-chunk timeout (120s), and idle timer (60s) prevent indefinite hangs
+- **Network timeouts**: 10-30s timeouts added to critical Supabase and HTTP operations
+- **Image security**: Magic byte validation and decompression bomb detection in `ImageCompressionService`
+- **Edge function CORS hardening**: Wildcard `Access-Control-Allow-Origin` replaced with origin allowlist in the `revoke-session` edge function
+- **RLS fix**: `get_credits_remaining` function updated with `auth.uid()` check; service role (null `auth.uid()`) still allowed for webhooks
 
 ## Vulnerability Reporting
 

@@ -179,6 +179,35 @@ class ChatSyncService {
 }
 ```
 
+## Chat Selection: ID-Based State
+
+Chat selection uses ID-based state management (`selectedChatId`) rather than index-based selection. The previous `selectedChatIndex` global mutable field was eliminated in February 2026 along with all index-adjustment code across the storage modules.
+
+Key changes:
+- `selectedChatIndex` field, facade getter/setter, and all index-adjustment logic removed from `chat_storage_crud.dart`, `chat_storage_sync.dart`, `chat_storage_state.dart`, and `chat_storage_service.dart`
+- Fully replaced by `selectedChatId` which identifies chats by their unique ID
+- On mobile, `selectedChatId` writes are performed inside `setState` in `root_wrapper_mobile.dart` to ensure consistent UI updates
+
+```dart
+// ID-based selection (current approach)
+void selectChat(String chatId) {
+  setState(() {
+    selectedChatId = chatId;
+  });
+}
+
+// Index-based selection was removed:
+// selectedChatIndex was a global mutable field that required
+// manual adjustment on every insert, delete, or reorder operation
+```
+
+## Race Condition Elimination
+
+Multiple race conditions in state initialization were fixed:
+
+- **Triple chat-loading race**: Redundant `loadSavedChatsForSidebar()` calls from `login_page.dart`, sidebars (after delete), and `chat_ui_mobile` (after new-chat persist) were removed. A single startup load point exists in `AppInitializationService._loadUserData()`. Pull-to-refresh uses `ChatSyncService.syncNow()` instead.
+- **Duplicate auth subscription race**: `SessionManagerService.initialize()` is deferred until after `waitForSupabase()` completes, preventing duplicate `onAuthStateChange` subscriptions.
+
 ## Best Practices
 
 | Practice | Description |
@@ -187,6 +216,8 @@ class ChatSyncService {
 | **Single source of truth** | State lives in services, UI observes |
 | **Immutable updates** | Create new objects instead of mutating |
 | **Dispose resources** | Clean up controllers and subscriptions |
+| **ID-based selection** | Identify entities by unique ID, never by list index |
+| **Single load point** | One initialization path to prevent race conditions |
 
 ## State Testing
 

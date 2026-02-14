@@ -10,8 +10,17 @@ Certificate pinning provides an additional layer of transport security by valida
 
 In **release builds**, SSL certificate pinning is enabled to prevent MITM attacks. Debug builds disable pinning to allow development tools like Charles Proxy or mitmproxy.
 
+The implementation uses real SHA-256 certificate validation via `badCertificateCallback`, with platform-specific registration through conditional exports:
+
+| File | Purpose |
+|------|---------|
+| `lib/utils/certificate_pinning_io.dart` | SHA-256 fingerprint validation using `dart:io` X509Certificate |
+| `lib/utils/certificate_pinning_register.dart` | Abstract registration (conditional export entry point) |
+| `lib/utils/certificate_pinning_register_io.dart` | Native platform registration via Dio's `IOHttpClientAdapter` |
+| `lib/utils/certificate_pinning_register_stub.dart` | Web stub (no-op, web doesn't support custom cert validation) |
+
 ```dart
-// lib/utils/certificate_pinning.dart
+// lib/utils/certificate_pinning_io.dart
 class CertificatePinning {
   /// SHA-256 fingerprints of trusted certificates
   static const _pinnedCertificates = [
@@ -21,23 +30,23 @@ class CertificatePinning {
     'sha256/BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=',
   ];
 
-  /// Returns SecurityContext for HTTPS connections
-  static SecurityContext? getSecurityContext() {
-    if (kReleaseMode) {
-      final context = SecurityContext();
-      for (final cert in _pinnedCertificates) {
-        context.setTrustedCertificatesBytes(_decodeCert(cert));
-      }
-      return context;
-    }
-    return null;  // No pinning in debug mode
-  }
-
   /// Validates certificate against pinned fingerprints
-  static bool validateCertificate(X509Certificate cert) {
+  /// Uses badCertificateCallback for real SHA-256 validation
+  static bool validateCertificate(X509Certificate cert, String host, int port) {
+    // Only validate for pinned domains (exact match or subdomain)
+    if (!_isPinnedDomain(host)) return true;
+
     final fingerprint = _computeFingerprint(cert);
     return _pinnedCertificates.any(
       (pinned) => SecureTokenHandler.secureCompare(pinned, fingerprint),
+    );
+  }
+
+  /// Exact domain match or dot-prefixed subdomain check
+  /// Prevents subdomain bypass (e.g. evil-api.chuk.chat.attacker.com)
+  static bool _isPinnedDomain(String host) {
+    return _pinnedDomains.any(
+      (domain) => host == domain || host.endsWith('.$domain'),
     );
   }
 }

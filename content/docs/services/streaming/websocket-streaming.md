@@ -350,7 +350,13 @@ try {
 ```dart
 class WebSocketConfig {
   // Connection timeout
-  static const connectTimeout = Duration(seconds: 10);
+  static const connectTimeout = Duration(seconds: 15);
+
+  // First-chunk timeout (max wait for initial response)
+  static const firstChunkTimeout = Duration(seconds: 120);
+
+  // Idle timeout (max silence between chunks)
+  static const idleTimeout = Duration(seconds: 60);
 
   // Ping interval to keep connection alive
   static const pingInterval = Duration(seconds: 30);
@@ -359,6 +365,10 @@ class WebSocketConfig {
   static const maxMessageSize = 50 * 1024 * 1024; // 50MB for images
 }
 ```
+
+{{< callout type="info" >}}
+WebSocket timeouts were added in February 2026: a 15-second connection timeout, a 120-second first-chunk timeout, and a 60-second idle timer. These prevent the client from hanging indefinitely on unresponsive connections.
+{{< /callout >}}
 
 ## Dependencies
 

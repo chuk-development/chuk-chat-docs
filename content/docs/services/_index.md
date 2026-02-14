@@ -5,11 +5,24 @@ weight: 3
 
 # Service Layer Overview
 
-The Chuk Chat application organizes its business logic into a comprehensive service layer consisting of 43 service files in `lib/services/`. This architecture separates concerns and provides clean, testable interfaces for all major application features.
+The Chuk Chat application organizes its business logic into a comprehensive service layer consisting of 51 service files in `lib/services/`. This architecture separates concerns and provides clean, testable interfaces for all major application features.
 
 ## Service Categories
 
-The services are organized into seven main categories:
+The services are organized into eight main categories:
+
+### App Lifecycle & Initialization
+
+Services extracted from `main.dart` to handle application startup, session management, theme, and lifecycle:
+
+- **AppInitializationService** (`app_initialization_service.dart`) - App startup and per-user session initialization (chat loading, sync, theme, model prefetch)
+- **SessionManagerService** (`session_manager_service.dart`) - Auth session validation, `onAuthStateChange` listener, per-user init guard to prevent re-initialization on token refresh
+- **AppLifecycleService** (`app_lifecycle_service.dart`) - App lifecycle management (resume/pause/detached) for mobile and desktop
+- **AppThemeService** (`app_theme_service.dart`) - Theme state management, previously inline in `main.dart`
+
+{{< callout type="info" >}}
+These four services were extracted in February 2026 to reduce `main.dart` from ~845 lines to ~140 lines. The `AuthGate` widget was also simplified from a 20-iteration retry loop to a single synchronous session check with stream listener.
+{{< /callout >}}
 
 ### Authentication & Security
 
@@ -50,7 +63,7 @@ Services for image and file handling:
 
 - **[ImageStorageService](media/image-storage-service)** - Encrypted image upload, download, and caching
 - **[ImageGenerationService](media/image-generation-service)** - AI-powered image generation
-- **[ImageCompressionService](media/image-compression-service)** - JPEG compression and optimization
+- **[ImageCompressionService](media/image-compression-service)** - JPEG compression, magic byte validation, and decompression bomb detection
 - **[FileConversionService](media/file-conversion-service)** - Document to markdown conversion
 
 ### Preferences
@@ -152,3 +165,7 @@ Beyond the documented categories, additional services handle specific features:
 | `TitleGenerationService` | Auto-generate chat titles using Qwen 3-8B |
 | `NotificationService` | Local push notifications |
 | `ProfileService` | User profile (display name) |
+| `AppInitializationService` | App startup and user session initialization |
+| `SessionManagerService` | Auth state listener with per-user init guard |
+| `AppLifecycleService` | App lifecycle events (resume, pause, detached) |
+| `AppThemeService` | Theme state management |

@@ -109,6 +109,22 @@ END;
 $$;
 ```
 
+### get_credits_remaining
+
+Returns the remaining credits for a user. Updated in February 2026 to include an `auth.uid()` check so that only the authenticated user (or the service role for webhooks/sync) can read their credit balance:
+
+```sql
+-- auth.uid() check prevents cross-user credit reads
+-- service role (null auth.uid()) still allowed for webhooks
+IF auth.uid() IS NOT NULL AND auth.uid() != p_user_id THEN
+  RAISE EXCEPTION 'Not authorized';
+END IF;
+```
+
+### default_model_provider (Trigger)
+
+A database trigger added in February 2026 (`20260213000000_default_model_provider.sql`) that sets the default AI model on new user profiles. This replaced a hardcoded fallback model in the client code.
+
 ## Edge Functions
 
 ### revoke-session
@@ -122,13 +138,14 @@ The function supports two modes:
 | **Single session** | `session_id` | Revokes a specific session by its ID |
 | **Revoke all others** | `current_token_hash` | Revokes all sessions except the one matching the provided token hash |
 
-**Security**: The function validates session ownership before performing any revocation -- a user can only revoke their own sessions. It uses the Supabase Admin API with a service role key to invalidate the underlying refresh tokens.
+**Security**: The function validates session ownership before performing any revocation -- a user can only revoke their own sessions. It uses the Supabase Admin API with a service role key to invalidate the underlying refresh tokens. CORS was hardened in February 2026 to replace the wildcard `Access-Control-Allow-Origin` with an explicit origin allowlist.
 
 ```typescript
 // supabase/functions/revoke-session/index.ts
 // POST /revoke-session
 // Body: { session_id: string } OR { current_token_hash: string }
 // Auth: Bearer token (validated against session owner)
+// CORS: Origin allowlist (not wildcard)
 ```
 
 ---

@@ -9,9 +9,13 @@ The `lib/utils/` directory contains utility classes, helpers, and platform stubs
 
 | File | Description |
 |------|-------------|
-| `certificate_pinning.dart` | TLS certificate pinning for Supabase and API connections using cryptographic hash verification. |
+| `certificate_pinning_io.dart` | Real SHA-256 TLS certificate pinning via `badCertificateCallback` with exact domain matching. |
+| `certificate_pinning_register.dart` | Conditional export entry point for cert pinning registration. |
+| `certificate_pinning_register_io.dart` | Native platform cert pinning registration via Dio's `IOHttpClientAdapter`. |
+| `certificate_pinning_register_stub.dart` | Web stub (no-op) for cert pinning. |
 | `secure_token_handler.dart` | Secure handling of authentication tokens: masking in logs, safe storage patterns. |
-| `input_validator.dart` | Password strength evaluation (`PasswordStrength` enum: weak, medium, strong) and input sanitization. |
+| `input_validator.dart` | Password strength evaluation (`PasswordStrength` enum: weak, medium, strong), input sanitization, and minimum password length (8 characters). |
+| `lru_byte_cache.dart` | LRU byte-limited cache (50 MB default) for in-memory image caching, preventing unbounded RAM growth. |
 | `file_upload_validator.dart` | Validates file uploads: checks archive contents, prevents zip bombs, enforces size limits. |
 
 ## Rate Limiting

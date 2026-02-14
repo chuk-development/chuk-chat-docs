@@ -3,7 +3,7 @@ title: StreamingManager
 weight: 3
 ---
 
-The `StreamingManager` orchestrates multiple concurrent AI response streams across different chats, buffering content and managing lifecycle events including background notifications.
+The `StreamingManager` orchestrates multiple concurrent AI response streams across different chats, buffering content and managing lifecycle events including background notifications. It preserves streaming responses when users switch between chats.
 
 ## Definition
 
@@ -141,7 +141,14 @@ await manager.startStream(
 );
 ```
 
-### Handling Background Navigation
+### Streaming Persistence on Chat Switch
+
+When a user switches away from a chat while the AI is still streaming, the response is preserved:
+
+- **Active streams** continue in the background with content buffered
+- **Completed streams** retain buffered content in memory with a 5-minute TTL (max 5 retained)
+- When loading a chat, the manager checks both active AND completed streams for buffered content
+- A per-chat streaming guard prevents false "Response cancelled" errors
 
 ```dart
 // User switches to a different chat while streaming
@@ -154,7 +161,7 @@ if (manager.isStreaming(currentChatId)) {
   );
 }
 
-// User returns to the streaming chat
+// User returns to the streaming chat -- content preserved
 final bgMessages = manager.getBackgroundMessages(chatId);
 if (bgMessages != null) {
   setState(() => messages = bgMessages);

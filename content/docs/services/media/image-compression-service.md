@@ -3,7 +3,7 @@ title: ImageCompressionService
 weight: 3
 ---
 
-`ImageCompressionService` compresses images to JPEG format in a background isolate, adaptively reducing quality and dimensions to reach a target file size.
+`ImageCompressionService` compresses images to JPEG format in a background isolate, adaptively reducing quality and dimensions to reach a target file size. It also provides security validation including magic byte verification and decompression bomb detection.
 
 ## Definition
 
@@ -20,6 +20,7 @@ class ImageCompressionService {
 
   static Future<Uint8List> compressImage(Uint8List imageBytes);
   static String getFileSizeMB(Uint8List bytes);
+  static bool isValidImage(Uint8List bytes);
 }
 ```
 
@@ -38,6 +39,7 @@ class ImageCompressionService {
 |--------|-------------|-------------|
 | `compressImage(Uint8List imageBytes)` | `Future<Uint8List>` | Compresses an image to JPEG in a background isolate |
 | `getFileSizeMB(Uint8List bytes)` | `String` | Returns file size as a formatted string in MB |
+| `isValidImage(Uint8List bytes)` | `bool` | Validates magic bytes and checks for decompression bombs |
 
 ## Compression Algorithm
 
@@ -66,3 +68,23 @@ final path = await ImageStorageService.uploadEncryptedImage(compressed);
 ```
 
 > **Note:** `ImageStorageService.uploadEncryptedImage()` already calls `compressImage()` internally, so you do not need to compress manually before uploading.
+
+## Security Validation
+
+The service validates images before processing to prevent attacks:
+
+### Magic Byte Verification
+
+Checks the first bytes of the file against known image format signatures (JPEG `FF D8 FF`, PNG `89 50 4E 47`, GIF `47 49 46`, WebP `52 49 46 46`). Files that don't match any known image format are rejected before decoding.
+
+### Decompression Bomb Detection
+
+After decoding, the service checks whether the decoded pixel dimensions are disproportionately large relative to the compressed file size. This prevents attackers from uploading small files that expand to consume excessive memory when decoded (e.g., a 100 KB file that decodes to a 100,000 x 100,000 pixel image).
+
+```dart
+// Validate before compression
+if (!ImageCompressionService.isValidImage(rawBytes)) {
+  throw Exception('Invalid or potentially malicious image file');
+}
+final compressed = await ImageCompressionService.compressImage(rawBytes);
+```

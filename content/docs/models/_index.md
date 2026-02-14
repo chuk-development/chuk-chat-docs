@@ -18,6 +18,7 @@ The `lib/models/` directory contains Dart classes that represent the application
 | `ChatStreamEvent` | `chat_stream_event.dart` | Streaming response events |
 | `ProjectModel` | `project_model.dart` | Project/workspace data |
 | `StoredChat` | `stored_chat.dart` | Persisted conversation |
+| `AppShellConfig` | `app_shell_config.dart` | Configuration object replacing 34 prop-drilled widget parameters |
 
 ## Model Patterns
 
@@ -58,6 +59,10 @@ print(msg1 == msg2); // true
 ```
 
 ## Model Documentation
+
+### AppShellConfig
+
+Added in February 2026, `AppShellConfig` is a configuration object that replaced 34 individually prop-drilled parameters passed through the widget tree. It bundles all shell-level configuration (selected chat, model, theme, callbacks) into a single typed object.
 
 {{< cards >}}
   {{< card link="chat-message" title="ChatMessage" subtitle="Message structure" >}}

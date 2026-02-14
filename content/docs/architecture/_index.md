@@ -29,7 +29,7 @@ The codebase adheres to several key architectural principles:
                            │
 ┌──────────────────────────▼──────────────────────────────────┐
 │                      Service Layer                           │
-│  - 43 services handling business logic                       │
+│  - 51 services handling business logic                       │
 │  - Authentication, Chat, Encryption, Streaming               │
 │  - Projects, Files, Preferences                              │
 └──────────────────────────┬──────────────────────────────────┘
@@ -68,12 +68,14 @@ The codebase adheres to several key architectural principles:
 
 | Category | Count | Description |
 |----------|-------|-------------|
-| Dart Files | 114 | Total source files |
-| Services | 43 | Business logic components |
+| Dart Files | 126 | Total source files |
+| Services | 51 | Business logic components |
 | Pages | 15 | Application screens |
 | Widgets | 14 | Reusable UI components |
 | Handlers | 5 | Mobile composition handlers |
-| Models | 6 | Core data models |
+| Models | 7 | Core data models (including AppShellConfig) |
+| Unit Tests | 444+ | Across services, models, and utils |
+| E2E Flows | 4 | Maestro smoke tests |
 
 ## Related Documentation
 
