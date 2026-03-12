@@ -16,7 +16,7 @@ The `lib/utils/` directory contains utility classes, helpers, and platform stubs
 | `secure_token_handler.dart` | Secure handling of authentication tokens: masking in logs, safe storage patterns. |
 | `input_validator.dart` | Password strength evaluation (`PasswordStrength` enum: weak, medium, strong), input sanitization, and minimum password length (8 characters). |
 | `lru_byte_cache.dart` | LRU byte-limited cache (50 MB default) for in-memory image caching, preventing unbounded RAM growth. |
-| `file_upload_validator.dart` | Validates file uploads: checks archive contents, prevents zip bombs, enforces size limits. |
+| `file_upload_validator.dart` | Validates file uploads: checks archive contents, prevents zip bombs, enforces size limits. Also validates image magic bytes (JPEG, PNG, GIF, WebP, BMP, TIFF). |
 
 ## Rate Limiting
 
@@ -35,6 +35,21 @@ The `lib/utils/` directory contains utility classes, helpers, and platform stubs
 | `service_logger.dart` | Structured logging utility for service-layer operations. |
 | `service_error_handler.dart` | Centralized error handling for Dio HTTP errors and service exceptions. |
 
+## Tool Calling
+
+| File | Description |
+|------|-------------|
+| `tool_parser.dart` | Parses tool call JSON from AI responses, extracting tool names, arguments, and results from streaming chunks. |
+| `tool_sanitizer.dart` | Sanitizes tool call arguments to prevent injection attacks and malformed input. |
+| `tool_helpers.dart` | Shared utility functions for tool handler implementations. |
+
+## Debug & Diagnostics
+
+| File | Description |
+|------|-------------|
+| `debug_chat_formatter.dart` | Formats full chat conversations for debug clipboard copy, including reasoning tokens, tool calls, and model info. |
+| `list_query_guard.dart` | Guards against unbounded list queries to prevent performance issues from large result sets. |
+
 ## UI Helpers
 
 | File | Description |
@@ -44,6 +59,7 @@ The `lib/utils/` directory contains utility classes, helpers, and platform stubs
 | `grain_overlay.dart` | Film grain visual overlay effect rendered as a custom painter. |
 | `highlight_registry.dart` | Registers syntax highlighting languages (Dart, JSON, Python, etc.) for code blocks in chat messages. |
 | `token_estimator.dart` | `TokenEstimator` class for approximating token counts from text length. |
+| `image_clipboard_service.dart` | Cross-platform image clipboard service for unified image copying across desktop and mobile. |
 
 ## Platform Abstraction Stubs
 
@@ -58,3 +74,6 @@ These files provide conditional exports so the app compiles on all platforms (in
 | `permission_handler_stub.dart` | Web stub for `package:permission_handler`. |
 | `record_stub.dart` | Web stub for `package:record` (audio recording). |
 | `desktop_drop_stub.dart` | Web stub for `package:desktop_drop` (drag-and-drop). |
+| `arch_helper.dart` | Conditional export for CPU architecture detection. |
+| `arch_helper_native.dart` | Native implementation using `dart:ffi` Abi detection for platform-specific downloads (arm64, x86_64, etc.). |
+| `arch_helper_stub.dart` | Web stub returning generic architecture info. |

@@ -8,12 +8,17 @@ A secure, cross-platform chat application built with Flutter that puts privacy f
 ## Key Features
 
 - **End-to-End Encryption** - AES-256-GCM with PBKDF2 key derivation
-- **Cross-Platform** - Windows, macOS, Linux, Android, iOS
+- **Cross-Platform** - Windows, macOS, Linux, Android, iOS, Web
 - **AI Chat** - Open-weight models via OpenRouter (DeepSeek, Llama, Mistral, Qwen, etc.)
-- **Real-Time Streaming** - HTTP SSE and WebSocket
-- **Offline Support** - Encrypted local cache
-- **Projects** - Workspaces with system prompts and file context
+- **Tool Calling** - Extensible tool system with 14 built-in handlers (maps, QR, weather, web search, calculators, etc.)
+- **Artifact Workspace** - Project-level artifact storage with diff tracking
+- **Real-Time Streaming** - HTTP SSE and WebSocket with certificate pinning
+- **Offline Support** - Encrypted local cache with offline fallback
+- **Projects** - Workspaces with system prompts, file context, and artifacts
+- **Interactive Maps** - Inline map rendering with numbered markers and route display
 - **Image Generation** - AI image generation via Z-Image Turbo
+- **In-App Updates** - Platform-specific update checks via GitHub Releases
+- **Desktop System Tray** - Minimize-to-tray on desktop platforms
 
 ## Technology Stack
 

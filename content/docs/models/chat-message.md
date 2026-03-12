@@ -20,6 +20,9 @@ class ChatMessage {
   final List<AttachedFile>? attachments;
   final String? model;
   final bool isStreaming;
+  final String? reasoning;
+  final List<ContentBlock>? contentBlocks;
+  final List<String>? imageUrls;
 
   const ChatMessage({
     required this.id,
@@ -29,6 +32,9 @@ class ChatMessage {
     this.attachments,
     this.model,
     this.isStreaming = false,
+    this.reasoning,
+    this.contentBlocks,
+    this.imageUrls,
   });
 }
 ```
@@ -44,6 +50,9 @@ class ChatMessage {
 | `attachments` | `List<AttachedFile>?` | No | File attachments |
 | `model` | `String?` | No | AI model used (assistant only) |
 | `isStreaming` | `bool` | No | Whether still receiving content |
+| `reasoning` | `String?` | No | Reasoning/thinking tokens from the model |
+| `contentBlocks` | `List<ContentBlock>?` | No | Interleaved content blocks for multi-pass tool call rendering |
+| `imageUrls` | `List<String>?` | No | Image URLs from tool results or image generation |
 
 ## MessageRole
 

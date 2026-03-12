@@ -23,6 +23,7 @@ lib/
 ├── models/                    # Data models
 ├── pages/                     # Full-screen page widgets
 ├── services/                  # Business logic and API services
+├── tool_handlers/             # Built-in tool implementations
 ├── utils/                     # Utility functions and helpers
 ├── widgets/                   # Reusable UI components
 └── platform_specific/         # Platform-adaptive layouts and chat UI
@@ -34,9 +35,10 @@ lib/
 |-----------|-------|-------------|
 | `constants/` | 1 | File handling constants (max size, allowed extensions) |
 | `core/` | 1 | Event bus for model selection changes |
-| `models/` | 5 | Data classes: ChatMessage, ChatModel, ChatStreamEvent, Project, StoredChat |
-| `pages/` | 16+ | Full-screen pages: login, settings, projects, pricing, etc. |
-| `services/` | 48 | All business logic: auth, chat storage, encryption, streaming, etc. |
-| `utils/` | 23 | Helpers: rate limiting, certificate pinning, validators, theme extensions |
-| `widgets/` | 14 | Reusable components: message bubble, dropdowns, viewers |
+| `models/` | 10 | Data classes: ChatMessage, ChatModel, ChatStreamEvent, Project, StoredChat, Artifact, ToolCall, ContentBlock, ClientTool, AppShellConfig |
+| `pages/` | 18 | Full-screen pages: login, settings, projects, tool calling, diagnostics, usage, etc. |
+| `services/` | 82 | All business logic: auth, chat, encryption, streaming, tool calling, artifacts, etc. |
+| `tool_handlers/` | 14 | Built-in tool implementations: maps, QR, weather, web, stocks, etc. |
+| `utils/` | 37 | Helpers: rate limiting, certificate pinning, validators, tool parsing, theme extensions |
+| `widgets/` | 19 | Reusable components: message bubble, dropdowns, viewers, maps, charts, artifacts |
 | `platform_specific/` | 12+ | Desktop/mobile wrappers, sidebars, chat UI, handlers |

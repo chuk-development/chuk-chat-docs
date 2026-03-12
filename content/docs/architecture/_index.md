@@ -22,21 +22,27 @@ The codebase adheres to several key architectural principles:
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     Presentation Layer                       │
-│  - Pages (15 screens)                                        │
-│  - Widgets (14 reusable components)                          │
+│  - Pages (18 screens)                                        │
+│  - Widgets (19 reusable components)                          │
 │  - Platform-specific UI variants                             │
 └──────────────────────────┬──────────────────────────────────┘
                            │
 ┌──────────────────────────▼──────────────────────────────────┐
 │                      Service Layer                           │
-│  - 51 services handling business logic                       │
+│  - 82 services handling business logic                       │
 │  - Authentication, Chat, Encryption, Streaming               │
-│  - Projects, Files, Preferences                              │
+│  - Tool Calling, Projects, Artifacts, Preferences            │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│                    Tool Handler Layer                         │
+│  - 14 tool handlers (maps, QR, weather, web, stocks, etc.)  │
+│  - Tool registry, executor, enforcer, and prompt builder     │
 └──────────────────────────┬──────────────────────────────────┘
                            │
 ┌──────────────────────────▼──────────────────────────────────┐
 │                       Data Layer                             │
-│  - Models (ChatMessage, StoredChat, Project, etc.)           │
+│  - Models (ChatMessage, StoredChat, Artifact, ToolCall, etc.)│
 │  - Local cache (SharedPreferences, SecureStorage)            │
 │  - Remote storage (Supabase)                                 │
 └─────────────────────────────────────────────────────────────┘
@@ -68,13 +74,15 @@ The codebase adheres to several key architectural principles:
 
 | Category | Count | Description |
 |----------|-------|-------------|
-| Dart Files | 126 | Total source files |
-| Services | 51 | Business logic components |
-| Pages | 15 | Application screens |
-| Widgets | 14 | Reusable UI components |
-| Handlers | 5 | Mobile composition handlers |
-| Models | 7 | Core data models (including AppShellConfig) |
-| Unit Tests | 444+ | Across services, models, and utils |
+| Dart Files | 207 | Total source files |
+| Services | 82 | Business logic components |
+| Tool Handlers | 14 | Built-in tool implementations |
+| Pages | 18 | Application screens |
+| Widgets | 19 | Reusable UI components |
+| Chat Handlers | 5 | Mobile composition handlers |
+| Models | 10 | Core data models |
+| Utils | 37 | Helper functions and utilities |
+| Unit Tests | 494+ | Across services, models, and utils |
 | E2E Flows | 4 | Maestro smoke tests |
 
 ## Related Documentation

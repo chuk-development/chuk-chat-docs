@@ -5,18 +5,19 @@ weight: 8
 
 # Complete File Reference
 
-This section provides a comprehensive reference for all 114 Dart files in the Chuk Chat codebase, organized by directory and purpose.
+This section provides a comprehensive reference for all 207 Dart files in the Chuk Chat codebase, organized by directory and purpose.
 
 ## Codebase Statistics
 
 | Category | Count |
 |----------|-------|
-| Total Dart Files | 114 |
-| Models | 6 |
-| Services | 35+ |
-| Pages | 13 |
-| Widgets | 14 |
-| Utils | 16 |
+| Total Dart Files | 207 |
+| Models | 10 |
+| Services | 82 |
+| Tool Handlers | 14 |
+| Pages | 18 |
+| Widgets | 19 |
+| Utils | 37 |
 | Platform-Specific | 15+ |
 
 ## Directory Overview

@@ -378,6 +378,26 @@ flutter run --release
 # App should show connection error, not allow traffic through proxy
 ```
 
+## WebSocket Certificate Pinning
+
+As of March 2026, certificate pinning extends to WebSocket connections used for real-time AI streaming. The `websocket_connector.dart` uses conditional imports to provide platform-specific implementations:
+
+| File | Purpose |
+|------|---------|
+| `lib/services/websocket_connector.dart` | Conditional export entry point |
+| `lib/services/websocket_connector_io.dart` | Native: creates WebSocket via `createPinnedHttpClient` with cert pinning |
+| `lib/services/websocket_connector_web.dart` | Web: standard `WebSocket.connect()` (browser handles TLS) |
+
+On native platforms, the WebSocket connector reuses the same `CertificatePinning` infrastructure as Dio HTTP requests, ensuring that WebSocket handshakes are validated against the pinned SHA-256 fingerprints. This closes a potential gap where an attacker could intercept the WebSocket upgrade while HTTP requests were pinned.
+
+```dart
+// websocket_connector_io.dart
+static Future<WebSocket> connect(String url) async {
+  final httpClient = createPinnedHttpClient();
+  return WebSocket.connect(url, customClient: httpClient);
+}
+```
+
 ## Related Documentation
 
 - [Encryption](../encryption) - Data encryption at rest

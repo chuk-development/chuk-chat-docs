@@ -182,6 +182,9 @@ Services that depend on native capabilities are split into platform-specific fil
 | `notification_service` | `notification_service_io.dart` | `notification_service_stub.dart` | All no-ops; `requestPermission()` returns `true` |
 | `streaming_foreground_service` | `streaming_foreground_service_io.dart` | `streaming_foreground_service_stub.dart` | No-op (web has no foreground service concept) |
 | `streaming_manager` | `streaming_manager_io.dart` | `streaming_manager_stub.dart` | Full streaming logic without notification or foreground service integration |
+| `websocket_connector` | `websocket_connector_io.dart` | `websocket_connector_web.dart` | WebSocket with certificate pinning on native; standard WebSocket on web |
+| `system_tray_service` | `system_tray_service_io.dart` | `system_tray_service_stub.dart` | Desktop system tray minimize-to-tray; no-op on web |
+| `diagnostics_log_service` | `diagnostics_log_service_io.dart` | `diagnostics_log_service_stub.dart` | File-based diagnostics logging on native; no-op on web |
 
 ### Web Layout
 

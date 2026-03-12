@@ -35,6 +35,10 @@ StreamingChatService.sendStreamingChat()
 - **`streaming_manager_io.dart`** (Android/iOS/desktop) -- Integrates with `StreamingForegroundService` and `NotificationService` for background streaming notifications
 - **`streaming_manager_stub.dart`** (Web) -- Same core logic without platform notification APIs
 
+## WebSocket Certificate Pinning
+
+As of March 2026, WebSocket connections use certificate pinning via the new `websocket_connector.dart` (with `io`/`web` conditional imports). On native platforms, the WebSocket handshake is validated against the same SHA-256 pinned fingerprints used for HTTP requests, closing a potential MITM gap.
+
 ## WebSocket Timeouts
 
 The WebSocket transport (`websocket_chat_service.dart`) enforces three timeouts to prevent indefinite hangs:

@@ -44,7 +44,7 @@ class ChatPage extends StatefulWidget {
 
 ### Service Layer
 
-Located in `lib/services/` with 51 service files:
+Located in `lib/services/` with 82 service files:
 
 - Business logic and validation
 - API communication
@@ -124,12 +124,13 @@ Presentation → Service → Data
 
 ```
 lib/
-├── pages/              # Presentation: Full screens
-├── widgets/            # Presentation: Reusable components
-├── services/           # Service: Business logic
-├── models/             # Data: Models and entities
+├── pages/              # Presentation: Full screens (18)
+├── widgets/            # Presentation: Reusable components (19)
+├── services/           # Service: Business logic (82)
+├── tool_handlers/      # Tool: Built-in tool implementations (14)
+├── models/             # Data: Models and entities (10)
 ├── platform_specific/  # Platform: Adaptive code
 ├── core/               # Shared infrastructure
 ├── constants/          # Configuration values
-└── utils/              # Helper functions
+└── utils/              # Helper functions (37)
 ```

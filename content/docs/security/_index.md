@@ -32,6 +32,10 @@ The security architecture follows these core principles:
 | Debug Log Protection | `kDebugMode` guards on all `debugPrint` calls | Active |
 | Android Backup Disabled | `allowBackup=false` + `dataExtractionRules` | Active |
 | Image Validation | Magic byte verification, decompression bomb detection | Active |
+| WebSocket Certificate Pinning | Cert pinning for WebSocket via `websocket_connector` | Active |
+| Multi-Step Account Deletion | 3-step deletion with password re-entry | Active |
+| Local QR Generation | Private QR codes without external API calls | Active |
+| Tool Call Sandboxing | Approval config and enforcer for tool execution | Active |
 
 ## Quick Links
 
@@ -98,6 +102,16 @@ Several security improvements were applied across the codebase:
 - **Image security**: Magic byte validation and decompression bomb detection in `ImageCompressionService`
 - **Edge function CORS hardening**: Wildcard `Access-Control-Allow-Origin` replaced with origin allowlist in the `revoke-session` edge function
 - **RLS fix**: `get_credits_remaining` function updated with `auth.uid()` check; service role (null `auth.uid()`) still allowed for webhooks
+
+## Security Hardening (March 2026)
+
+Additional security improvements applied in the February-March 2026 timeframe:
+
+- **WebSocket certificate pinning**: New `websocket_connector.dart` with `io`/`web` conditional imports applies the same SHA-256 certificate pinning to WebSocket connections that was previously only on HTTP. Uses `createPinnedHttpClient` on native platforms
+- **Image magic byte validation**: `file_upload_validator.dart` now validates JPEG, PNG, GIF, WebP, BMP, and TIFF magic bytes plus enforces size limits before any upload
+- **Multi-step account deletion**: 3-step non-dismissible dialog flow (warning, final warning, password re-entry) before account deletion proceeds
+- **Local QR generation**: Replaced external QR API dependency with local `pretty_qr_code` package -- QR codes are now generated entirely on-device with no network calls
+- **Tool call approval system**: `approval_config.dart` and `tool_enforcer.dart` validate and enforce constraints on tool call execution, preventing unauthorized tool use
 
 ## Vulnerability Reporting
 

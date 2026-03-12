@@ -5,11 +5,11 @@ weight: 3
 
 # Service Layer Overview
 
-The Chuk Chat application organizes its business logic into a comprehensive service layer consisting of 51 service files in `lib/services/`. This architecture separates concerns and provides clean, testable interfaces for all major application features.
+The Chuk Chat application organizes its business logic into a comprehensive service layer consisting of 82 service files in `lib/services/` plus 14 tool handler files in `lib/tool_handlers/`. This architecture separates concerns and provides clean, testable interfaces for all major application features.
 
 ## Service Categories
 
-The services are organized into eight main categories:
+The services are organized into twelve main categories:
 
 ### App Lifecycle & Initialization
 
@@ -73,6 +73,62 @@ Services for user settings and customization:
 - **[ThemeSettingsService](preferences/theme-settings-service)** - Theme sync across devices
 - **[UserPreferencesService](preferences/user-preferences-service)** - Model and system prompt preferences
 - **[CustomizationPreferencesService](preferences/customization-preferences-service)** - Feature display preferences
+
+### Tool Calling
+
+Services and handlers that power the extensible tool calling system, added in March 2026:
+
+- **ToolRegistry** (`tool_registry.dart`) - Central registry for all tool definitions and schemas
+- **ToolExecutor** (`tool_executor.dart`) - Routes tool calls to the appropriate handler
+- **ToolCallHandler** (`tool_call_handler.dart`) - Orchestrates multi-pass tool calling flow
+- **ToolEnforcer** (`tool_enforcer.dart`) - Validates and enforces tool call constraints
+- **ToolPromptBuilder** (`tool_prompt_builder.dart`) - Builds system prompts with tool schemas
+- **ToolImageResultService** (`tool_image_result_service.dart`) - Handles image outputs from tools
+- **ApprovalConfig** (`approval_config.dart`) - Tool approval configuration
+
+14 built-in tool handlers in `lib/tool_handlers/`:
+
+| Handler | Capabilities |
+|---------|-------------|
+| `calculate_handler.dart` | Mathematical calculations |
+| `map_tools.dart` | Interactive maps with markers and routes |
+| `qr_tools.dart` | Local QR code generation |
+| `weather_tools.dart` | Weather lookups |
+| `web_tools.dart` | Web search and page fetching |
+| `stock_tools.dart` | Stock price lookups |
+| `image_tools.dart` | AI image editing (Hunyuan v3) |
+| `notes_tools.dart` | Note management |
+| `chat_search_tools.dart` | Chat history search |
+| `find_tools_handler.dart` | Tool discovery |
+| `platform_tools.dart` | Platform-specific operations (io/stub) |
+| `nextcloud_tools.dart` | Nextcloud integration |
+
+### Artifact Workspace
+
+Services for the project-level artifact system, added in March 2026:
+
+- **ArtifactStorageService** (`artifact_storage_service.dart`) - CRUD operations for artifacts via Supabase
+- **ArtifactDiffEngine** (`artifact_diff_engine.dart`) - Diff computation for artifact changes
+- **ArtifactContextService** (`artifact_context_service.dart`) - Context management for artifact workspace
+
+### Update & Diagnostics
+
+Services for in-app updates, diagnostics, and usage tracking:
+
+- **UpdateCheckService** (`update_check_service.dart`) - Queries GitHub Releases API every 4 hours for platform-specific updates
+- **DiagnosticsLogService** (`diagnostics_log_service.dart`) - File-based diagnostics logging (io/stub split)
+- **DeveloperOptionsService** (`developer_options_service.dart`) - Developer options management
+- **UsageLogsService** (`usage_logs_service.dart`) - Usage tracking and logging
+
+### Settings Sync & OAuth
+
+Services for cross-device settings sync and third-party OAuth integrations:
+
+- **SettingsSyncService** (`settings_sync_service.dart`) - Cross-device sync for identity and tool preferences
+- **GitHubOAuth** (`github_oauth.dart`) - GitHub OAuth integration for tools
+- **GoogleOAuth** (`google_oauth.dart`) - Google OAuth integration
+- **SlackOAuth** (`slack_oauth.dart`) - Slack OAuth integration
+- **SpotifyOAuth** (`spotify_oauth.dart`) - Spotify OAuth integration
 
 ### Configuration
 
@@ -163,9 +219,15 @@ Beyond the documented categories, additional services handle specific features:
 | Service | Description |
 |---------|-------------|
 | `TitleGenerationService` | Auto-generate chat titles using Qwen 3-8B |
-| `NotificationService` | Local push notifications |
+| `NotificationService` | Local push notifications (io/stub split) |
 | `ProfileService` | User profile (display name) |
-| `AppInitializationService` | App startup and user session initialization |
-| `SessionManagerService` | Auth state listener with per-user init guard |
-| `AppLifecycleService` | App lifecycle events (resume, pause, detached) |
-| `AppThemeService` | Theme state management |
+| `SystemTrayService` | Desktop system tray minimize-to-tray (io/stub split) |
+| `LocalChatCacheService` | Offline chat cache fallback |
+| `ChatPreloadService` | Preload chats for offline availability |
+| `MessageCompositionService` | Build message payloads for API requests |
+| `WebSocketChatService` | WebSocket-based chat with cert pinning |
+| `WebSocketConnector` | Platform-specific WebSocket connection (io/web) |
+| `DeviceServices` | Device information for tools |
+| `EmailService` | Email integration for tools |
+| `NextcloudService` | Nextcloud file integration |
+| `BashSandbox` | Sandboxed bash execution for tools |

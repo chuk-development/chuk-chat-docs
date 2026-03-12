@@ -23,3 +23,8 @@ The `lib/widgets/` directory contains reusable UI components shared across deskt
 | `project_panel.dart` | `ProjectPanel` | Side panel for project context: shows assigned files and system prompt during chat. |
 | `project_file_viewer.dart` | `ProjectFileViewer` | Displays and edits project file content with markdown preview. |
 | `project_selection_dropdown.dart` | `ProjectSelectionDropdown` | Dropdown for assigning the current chat to a project workspace. |
+| `artifact_panel.dart` | `ArtifactPanel` | Side panel for the artifact workspace: displays and manages project artifacts with diff tracking. |
+| `chart_widget.dart` | `ChartWidget` | Renders usage analytics charts (message counts, token usage, model breakdown) for the usage details page. |
+| `map_block_renderer.dart` | `MapBlockRenderer` | Renders inline `<map>` blocks from AI responses as interactive FlutterMap widgets with numbered markers. |
+| `route_map_widget.dart` | `RouteMapWidget` | Displays route maps with OSRM polyline overlays and waypoint markers for navigation tool results. |
+| `update_banner.dart` | `UpdateBanner` | Banner displayed in desktop/mobile sidebars when a new app version is available via GitHub Releases. |
